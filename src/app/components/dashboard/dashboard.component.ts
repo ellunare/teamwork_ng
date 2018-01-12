@@ -67,7 +67,7 @@ export class DashboardComponent implements OnInit {
 
   // Информация о текущем проекте для использования в dashboard компонентах
   getCurrentProject(id) {
-    this._projectsService.x_getCurrentProject(id)
+    this._projectsService.x_getProject(id)
       .subscribe(res => {
         console.log(res.msg);
         if (res.success) {

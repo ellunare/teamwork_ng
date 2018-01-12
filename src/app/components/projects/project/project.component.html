@@ -1,9 +1,5 @@
-<div class="wait" *ngIf="wait">
-	<!-- <div class="wait__spin"></div> -->
-	<!-- <div class="wait__spin2"></div> -->
-	<div class="wait__spin3"></div>
-</div>
-<!--  -->
+<loading *ngIf="wait"></loading>
+
 <div class="project-header">
 	<button (click)="close()">Close</button>
 </div>
@@ -18,19 +14,15 @@
 			<input *ngIf="edit_mode" type="text" name="desc" [(ngModel)]="thisProject.description">
 		</div>
 		<div class="project-info__center__buttons">
-			<fav (favTrigger)="makeFav($event)" [inFav]="inFav" *ngIf="!edit_mode"></fav>
-			<button *ngIf="edit_mode" (click)="saveEdit()">Save</button>
+			<fav (favTrigger)="x_makeFav($event)" [inFav]="inFav" *ngIf="!edit_mode"></fav>
+			<button *ngIf="edit_mode" (click)="x_saveEdit()">Save</button>
 			<button *ngIf="edit_mode" (click)="toggleAddingMode()">×</button>
 			<button *ngIf="!edit_mode" (click)="toggleAddingMode()">Edit</button>
-			<button *ngIf="!edit_mode" (click)="deleteProject()">Delete</button>
+			<button *ngIf="!edit_mode" (click)="x_deleteProject()">Delete</button>
 		</div>
 	</div>
 </div>
 
 <color *ngIf="edit_mode" (colorSelected)="setTempColor(i, $event)"></color>
-
-<!-- <div class="wait" *ngIf="wait">
-	WAITING
-</div> -->
 
 <section-list [parentProjectId]="id"></section-list>

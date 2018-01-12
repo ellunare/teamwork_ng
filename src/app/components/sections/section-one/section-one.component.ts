@@ -40,15 +40,18 @@ export class SectionOneComponent implements OnInit {
 
   parent_color = '';
 
+  render_info = false;
+
   constructor(
     private sectionsService: SectionsService,
     private desksService: DesksService,
-    private projectsService: ProjectsService,
+    private _projectsService: ProjectsService,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) { }
 
   ngOnInit() {
+    this.render_info = false;
     // Получаем ID из маршрута
     this.activatedRoute.params.subscribe((values: { id: number }) => {
       this.id = values.id;
@@ -173,7 +176,17 @@ export class SectionOneComponent implements OnInit {
   }
 
   getParentColor() {
-    this.parent_color = this.projectsService.getColor(this.section.parentProjectId);
+    this._projectsService.x_getProject(this.section.parentProjectId)
+      .subscribe(res => {
+        console.log(res.msg);
+        if (res.success) {
+          this.parent_color = res.data.color;
+        }
+        else {
+          this.parent_color = '#6d6639';
+        }
+        this.render_info = true;
+      })
   }
 
 

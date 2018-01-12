@@ -66,10 +66,14 @@ export class TeamComponent implements OnInit {
   // Удаляем из команды по Id пользователя
   x_deleteFromTeam(user_id, team_id, e) {
     e.preventDefault();
-    this._usersService.x_deleteFromTeam(user_id, team_id)
-      .subscribe(res => {
-        this.x_deleteFromTeamLocal(user_id);
-      });
+    let flag = confirm('Sure?');
+    if (flag) {
+      // Удаляем пользователя
+      this._usersService.x_deleteFromTeam(user_id, team_id)
+        .subscribe(res => {
+          this.x_deleteFromTeamLocal(user_id);
+        });
+    }
   }
 
   // На клиенте - удаляем из массива

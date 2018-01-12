@@ -25,14 +25,11 @@ export class SectionItemComponent implements OnInit {
   }
 
   navigate() {
-    // this.router.navigate(['dash', 'project', this.section.parentProjectId]);
-    // setTimeout(() => {
     this.router.navigate([
       'dash',
       'project', this.section.parentProjectId,
       'section', this.section.id
     ]);
-    // }, 1110);
   }
 
 }

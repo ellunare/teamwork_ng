@@ -38,7 +38,10 @@ import { SectionItemComponent } from './components/sections/section-item/section
 import { SectionOneComponent } from './components/sections/section-one/section-one.component';
 import { TaskComponent } from './components/tasks/task/task.component';
 import { CommentComponent } from './components/comments/comment/comment.component';
+
 import { FavComponent } from './components/fav/fav.component';
+
+import { LoadingComponent } from './components/loading/loading.component';
 
 
 @NgModule({
@@ -63,6 +66,7 @@ import { FavComponent } from './components/fav/fav.component';
     TaskComponent,
     CommentComponent,
     FavComponent,
+    LoadingComponent,
   ],
   imports: [
     BrowserModule,

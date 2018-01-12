@@ -50,29 +50,6 @@ export class SectionsService {
   x_getSections(project_id) {
     return this._http.get(this.url + '/sections/project/' + project_id, this._ss._headers())
       .map(res => res.json());
-    // let DB = this.sectionsDB;
-
-    // let __tempDB = [];
-    // for (let i = 0; i < DB.length; i++) {
-    //   if (DB[i].parentProjectId == id) {
-    //     __tempDB.push(DB[i]);
-    //   }
-    // }
-    // if (__tempDB.length) {
-    //   return {
-    //     response: true,
-    //     message: 'SecS Project ' + id + ' sections',
-    //     data: __tempDB
-    //   };
-    // }
-    // else {
-    //   return {
-    //     response: false,
-    //     message: 'SecS Project ' + id + ' have no sections',
-    //     data: null
-    //   };
-    // }
-
   }
 
   // Создаем 3 стандартные секции у нового проекта
@@ -138,5 +115,11 @@ export class SectionsService {
       message: 'SecS Section ' + id + ' not deleted / not found'
     };
   }
+
+  x_deleteProjectSections(project_id) {
+    return this._http.delete(this.url + '/delete/project/' + project_id, this._ss._headers())
+      .map(res => res.json());
+  }
+  
 }
 

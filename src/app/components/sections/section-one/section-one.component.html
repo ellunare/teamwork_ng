@@ -2,8 +2,10 @@
   <button (click)="close()">Back</button>
 </div>
 
+<loading *ngIf="!render_info"></loading>
+
 <!-- [style.background-color]="setColor()" -->
-<div class="section-info">
+<div class="section-info" *ngIf="render_info">
   <div class="section-info__left_1" [style.background-color]="parent_color"></div>
   <div class="section-info__left_2" [style.border-left-color]="parent_color"></div>
   <div class="section-info__center">
@@ -23,7 +25,7 @@
 </div>
 
 
-<div class="desks">
+<div class="desks" *ngIf="render_info">
   <p>DESKS</p>
   <br>
 

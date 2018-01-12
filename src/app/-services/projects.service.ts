@@ -28,7 +28,7 @@ export class ProjectsService {
   }
 
   // Отдаем 1 проект по его ID 
-  x_getCurrentProject(id) {
+  x_getProject(id) {
     return this._http.get(this.url + '/project/' + id, this._ss._headers())
       .map(res => res.json());
   }
@@ -39,44 +39,14 @@ export class ProjectsService {
       .map(res => res.json());
   }
 
-  saveEdit(data) {
-    var DB = this.projectsDB;
-
-    for (let i = 0; i < DB.length; i++) {
-      if (DB[i].id == data.id) {
-
-        DB[i].name = data.name;
-        DB[i].description = data.description;
-        DB[i].color = data.color;
-
-        return {
-          response: true,
-          message: 'ProS Project ' + data.id + ' edit saved'
-        }
-      }
-    }
-    return {
-      response: false,
-      message: 'ProS Project ' + data.id + ' not saved / not found'
-    }
+  x_saveEdit(data) {
+    return this._http.put(this.url + '/edit/' + data.id, data, this._ss._headers())
+      .map(res => res.json());
   }
 
-  deleteProject(id) {
-    var DB = this.projectsDB;
-
-    for (let i = 0; i < DB.length; i++) {
-      if (DB[i].id == id) {
-        DB.splice(i, 1);
-        return {
-          response: true,
-          message: 'ProS Project ' + id + ' deleted'
-        };
-      }
-    }
-    return {
-      response: false,
-      message: 'ProS Project ' + id + ' not deleted / not found'
-    };
+  x_deleteProject(id) {
+    return this._http.delete(this.url + '/delete/' + id, this._ss._headers())
+      .map(res => res.json());
   }
 
   // Shared сервис
@@ -97,44 +67,14 @@ export class ProjectsService {
     }
   }
 
-  makeFav(P_ID, U_ID, e) {
-    let DB = this.projectsDB;
-
-    for (let i = 0; i < DB.length; i++) {
-      if (DB[i].id == P_ID) {
-
-        // Добавляем
-        if (e) {
-          this.projectsDB[i].userFavId.push(U_ID);
-          console.log(this.projectsDB[i]);
-          return {
-            response: true,
-            message: 'ProS Project ' + P_ID + ' added to user ' + U_ID + ' favs'
-          }
-        }
-
-        // Удаляем
-        else {
-          let IDs = DB[i].userFavId;
-
-          for (let j = 0; j < IDs.length; j++) {
-            if (IDs[j] == U_ID) {
-              this.projectsDB[i].userFavId.splice(j, 1);
-              console.log(this.projectsDB[i]);
-              return {
-                response: true,
-                message: 'ProS Project ' + P_ID + ' removed from user ' + U_ID + ' favs'
-              }
-            }
-          }
-        }
-
-      }
+  x_makeFav(P_ID, U_ID, add) {
+    let body = {
+      p_id: P_ID,
+      u_id: U_ID,
+      add: add
     }
-    return {
-      response: false,
-      message: 'ProS Project ' + P_ID + ' not found'
-    }
+    return this._http.put(this.url + '/makefav', body, this._ss._headers())
+      .map(res => res.json());
   }
-
+  
 }

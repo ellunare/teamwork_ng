@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ProjectsService } from '../../../-services/projects.service';
+import { SectionsService } from '../../../-services/sections.service';
 import { UsersService } from '../../../-services/users.service';
 
 import { ActivatedRoute } from '@angular/router';
@@ -25,6 +26,7 @@ export class ProjectComponent implements OnInit {
 
   constructor(
     private _projectsService: ProjectsService,
+    private _sectionsService: SectionsService,
     private _usersService: UsersService,
     private activatedRoute: ActivatedRoute,
     private router: Router
@@ -39,7 +41,7 @@ export class ProjectComponent implements OnInit {
         this.id = values.id;
       })
     // После инициализируем проект
-    this.initialise(this.id);
+    this.x_initialise(this.id);
   }
 
   // Цвет проекта для верстки
@@ -48,33 +50,25 @@ export class ProjectComponent implements OnInit {
   }
 
   // Получаем проект
-  initialise(id) {
-    this._projectsService.x_getCurrentProject(id)
+  x_initialise(id) {
+    this._projectsService.x_getProject(id)
       .subscribe(res => {
         console.log(res.msg);
         if (res.success) {
           this.thisProject = res.data;
           this.wait = false;
-          this.isFav();
+          this.x_isFav();
         }
       });
   }
 
-  isFav() {
-    let flag = false;
+  x_isFav() {
     let user_id = this._usersService.getID();
     for (let i = 0; i < this.thisProject.userFavId.length; i++) {
       if (this.thisProject.userFavId[i] == user_id) {
-        flag = true;
+        this.inFav = true;
         break;
       }
-    }
-    if (flag) {
-      console.log('--- In fav');
-      this.inFav = true;
-    }
-    else {
-      console.log('--- not in fav');
     }
   }
 
@@ -84,9 +78,7 @@ export class ProjectComponent implements OnInit {
   }
 
   // Сохраняем редактирование
-  saveEdit() {
-    this.wait = true;
-
+  x_saveEdit() {
     let data = {
       id: this.thisProject.id,
       name: this.thisProject.name,
@@ -94,16 +86,13 @@ export class ProjectComponent implements OnInit {
       color: this.thisProject.color
     }
 
-    let response = this._projectsService.saveEdit(data);
-
-    console.log(response.message);
-    if (response.response) {
-      setTimeout(() => {
-        this.wait = false;
-        this.toggleAddingMode();
-      }, 1000);
-    }
-
+    this._projectsService.x_saveEdit(data)
+      .subscribe(res => {
+        console.log(res.msg);
+        if (res.success) {
+          this.toggleAddingMode();
+        }
+      })
   }
 
   // Получаем цвет от палитры
@@ -116,33 +105,41 @@ export class ProjectComponent implements OnInit {
   }
 
   // Кнопка удалить проект
-  deleteProject() {
-    this.wait = true;
-    let response = this._projectsService.deleteProject(this.id);
+  x_deleteProject() {
+    let flag = confirm('Sure?');
+    if (flag) {
+      // Удаляем проект
+      this._projectsService.x_deleteProject(this.id)
+        .subscribe(res => {
+          console.log(res.msg);
+          if (res.success) {
 
-    console.log(response.message);
-    if (response.response) {
-      setTimeout(() => {
-        // Отдаем событие с ID в сервис для удаления проекта и в project list
-        this._projectsService.emitProjectDeleted(this.id);
-        this.wait = false;
-        this.close();
-      }, 1000);
+            // Удаляем дочерние секции
+            this._sectionsService.x_deleteProjectSections(this.id)
+              .subscribe(res => {
+                console.log(res.msg);
+                if (res.success) {
+                  console.log('childsectionsdeleted');
+                }
+              });
+
+            // Отдаем событие с ID в сервис для удаления проекта и в project list
+            this._projectsService.emitProjectDeleted(this.id);
+            this.close();
+          }
+
+        });
     }
   }
 
-  makeFav(e) {
+  x_makeFav(add) {
     let projectID = this.id;
     let userID = this._usersService.getID();
-    let response = this._projectsService.makeFav(projectID, userID, e);
 
-    console.log(response.message);
-    if (response.response) {
-      this.inFav = true;
-    }
-    else {
-      this.inFav = false;
-    }
+    this._projectsService.x_makeFav(projectID, userID, add)
+      .subscribe(res => {
+        console.log(res.msg);
+      })
   }
 
 }

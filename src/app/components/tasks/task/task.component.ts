@@ -38,6 +38,7 @@ export class TaskComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.wait = true;
     this.activatedRoute.params
       .subscribe(params =>
         this.id = parseInt(params.id));
@@ -98,6 +99,7 @@ export class TaskComponent implements OnInit {
     console.log(response.message);
     if (response.response) {
       this.comments = response.data;
+      this.wait = false;
     }
   }
 
