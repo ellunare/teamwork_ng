@@ -1,0 +1,27 @@
+<div class="sections">
+	<p>SECTIONS</p>
+	<br>
+
+	<div class="sections-item-list">
+		<section-item *ngFor="let s of sections" [section]="s" class="sections-item-list__item"></section-item>
+
+		<div class="sections-new  sections-item-list__item">
+			<div *ngIf="add_mode">
+				<!-- <label for="name">Name</label> -->
+				<input type="text" name="name" [(ngModel)]="temp_name" placeholder="Title">
+				<!-- <label for="description">Description</label> -->
+				<input type="text" name="description" [(ngModel)]="temp_description" placeholder="Description">
+				<div class="btns">
+					<button class="sections-new__add" (click)="createSection()">ADD</button>
+					<button class="sections-new__close" (click)="toggleAddingMode()" *ngIf="add_mode">×</button>
+				</div>
+			</div>
+			<button *ngIf="!add_mode" class="sections-new__plus" (click)="toggleAddingMode()">+</button>
+		</div>
+	</div>
+
+
+
+
+	<!-- <div *ngIf="wait">WAITING</div> -->
+</div>

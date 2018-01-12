@@ -1,0 +1,48 @@
+<div class="section-header">
+  <button (click)="close()">Back</button>
+</div>
+
+<!-- [style.background-color]="setColor()" -->
+<div class="section-info">
+  <div class="section-info__left_1" [style.background-color]="parent_color"></div>
+  <div class="section-info__left_2" [style.border-left-color]="parent_color"></div>
+  <div class="section-info__center">
+    <div class="section-info__center__info">
+      <p *ngIf="!mode.edit_section">{{section.name}}</p>
+      <p *ngIf="!mode.edit_section">{{section.description}}</p>
+      <input *ngIf="mode.edit_section" type="text" name="name" [(ngModel)]="section.name">
+      <input *ngIf="mode.edit_section" type="text" name="desc" [(ngModel)]="section.description">
+    </div>
+    <div class="section-info__center__buttons">
+      <button *ngIf="mode.edit_section" (click)="saveEdit()">Save</button>
+      <button *ngIf="mode.edit_section" (click)="toggleMode('edit_section')">×</button>
+      <button *ngIf="!mode.edit_section" (click)="toggleMode('edit_section')">Edit</button>
+      <button *ngIf="!mode.edit_section" (click)="deleteSection()">Delete</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="desks">
+  <p>DESKS</p>
+  <br>
+
+  <div class="desks-list">
+
+    <div *ngFor="let d of desks" class="desks-list__item" (click)="navigate(d.id)">
+      <p class="desks__item-line">{{d.line}}</p>
+    </div>
+
+    <div class="desks-list__add">
+      <div class="create" *ngIf="mode.add_desk">
+        <!-- <label for="line">Line</label> -->
+        <input type="text" name="line" [(ngModel)]="temp_desk_name" placeholder="Desk title">
+        <button (click)="createDesk()">Create</button>
+        <button (click)="toggleMode('add_desk')">×</button>
+      </div>
+      <button *ngIf="!mode.add_desk" (click)="toggleMode('add_desk')">+ DESK</button>
+    </div>
+
+  </div>
+
+</div>

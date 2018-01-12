@@ -1,0 +1,108 @@
+@import '../../../../style_vars.sass'
+
+\:host
+	display: flex
+	height: 100%
+	// background-color: gold
+
+=btn
+	width: auto
+	height: 3rem
+	padding: 0 1rem
+	line-height: 3rem
+	font-size: 1.4rem
+	margin-top: 1rem
+	margin-left: 1rem
+
+$h: 5rem
+.desk
+	&-header
+		height: 5rem
+		button
+			+button($red)
+			+btn
+	&-info
+		height: $h
+		display: flex
+		background-color: $grey
+		&__left
+			width: 0
+			height: 0
+			border-style: solid
+			border-width: $h/2 0 $h/2 $h/3
+			border-color: transparent transparent transparent $blue
+		&__center
+			width: 100%
+			display: flex
+			justify-content: space-between
+			&__info
+				color: $blue
+				margin-left: 1rem
+				line-height: $h
+				input
+					+input
+					color: $blue
+					height: 4rem
+					display: block
+					border-bottom-color: #fff
+			&__buttons
+				button
+					+button($red)
+					+btn
+					margin-left: 0
+					margin-right: 0.5rem
+	&-task-list
+			text-align: center
+			// background-color: red
+			height: 100%
+			overflow: auto
+			&::-webkit-scrollbar-thumb
+				border-radius: 1px
+				background-color: $grey
+			&__item
+				text-align: left
+				padding: 0.5rem
+				p
+					cursor: pointer
+					padding: 1rem
+					background-color: $gold
+					color: #fff
+					height: 5rem
+					border-radius: 0.5rem
+			&__plus
+				+button($red)
+				+btn
+			&__edit
+				text-align: center
+				border: 1px solid $gold
+				background-color: none
+				color: #fff
+				height: 5rem
+				border-radius: 0.5rem
+				&__add
+					button
+						+button($red)
+						+btn
+					input
+						+input
+						color: $blue
+						&::placeholder
+							color: $gold
+
+.left
+	width: calc(100% - #{$comm_w})
+	// height: 5rem
+	height: calc(100% - 10rem)
+	// background-color: transparentize($blue, 0.5)
+
+.right
+	width: $comm_w
+	position: relative
+	&__null-triangle
+		position: absolute
+		top: $h
+		width: 0
+		height: 0
+		border-style: solid
+		border-width: $h/2 0 $h/2 $h/3
+		border-color: transparent transparent transparent $grey

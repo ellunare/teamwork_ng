@@ -1,0 +1,123 @@
+@import '../../../../style_vars.sass'
+
+\:host
+	// width: 100%
+
+=btn
+	width: auto
+	height: 3rem
+	padding: 0 1rem
+	line-height: 3rem
+	font-size: 1.4rem
+	margin-top: 1rem
+	margin-left: 1rem
+
+$h: 5rem
+.section
+	&-header
+		height: 5rem
+		button
+			+button($red)
+			+btn
+
+	&-info
+		height: $h
+		display: flex
+		&__left_1
+			width: 0
+			height: 0
+			border-style: solid
+			border-width: $h/2 0 $h/2 $h/3
+			border-color: transparent transparent transparent $blue
+		&__left_2
+			width: 0
+			height: 0
+			background-color: $gold
+
+			border: 0 solid transparent
+			border-bottom-width: $h / 2
+			border-top-width: $h / 2
+			border-left: $h / 3 solid black
+			
+		&__center
+			width: 100%
+			display: flex
+			justify-content: space-between
+			background-color: $gold
+			&__info
+				color: #fff
+				margin-left: 1rem
+				line-height: $h/2
+				p:last-child
+					font-size: 1.2rem
+				input
+					+input
+					display: block
+					border-bottom-color: #fff
+			&__buttons
+				button
+					+button($red)
+					+btn
+					margin-left: 0
+					margin-right: 0.5rem
+
+$d_w_4: 23%
+$d_mr_4: calc((100% - 4 * #{$d_w_4}) / 3)
+
+$d_w_3: 32%
+$d_mr_3: calc((100% - 3 * #{$d_w_3}) / 2)
+
+$d_w_2: 48%
+$d_mr_2: calc((100% - 2 * #{$d_w_2}) / 1)
+
+=desk
+	cursor: pointer
+	padding: 0 1rem
+	text-align: center
+	border-bottom-right-radius: 1rem
+	display: flex
+	justify-content: center
+	align-items: center
+	height: 7rem
+	margin-bottom: 1.5rem
+	width: $d_w_4
+	margin-right: $d_mr_4
+	&:nth-child(4n)
+		margin-right: 0
+	@media screen and (max-width: 1000px)
+		&:nth-child(4n)
+			margin-right: $d_mr_3
+		width: $d_w_3
+		margin-right: $d_mr_3
+		&:nth-child(3n)
+			margin-right: 0
+
+
+.desks
+	padding: 1rem
+	&-list
+		display: flex
+		flex-wrap: wrap
+		&__item
+			+desk
+			background-color: $grey
+			// box-shadow: 0px 10px 20px 0px rgba(0,0,0,0.1)
+			// background: linear-gradient(135deg, rgba(232,117,75,1) 0%, rgba(217,193,37,1) 100%)
+
+		&__add
+			+desk
+			border: 1px solid $grey
+			cursor: default
+		&__add
+			button
+				+button($red)
+				+btn
+				margin: 0
+			input
+				+input
+				width: 90%
+				margin-bottom: 0.5rem
+				border-bottom-color: $grey
+				color: $blue
+				&::placeholder
+					color: $blue

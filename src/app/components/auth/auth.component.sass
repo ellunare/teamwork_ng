@@ -1,0 +1,60 @@
+@import '../../../style_vars.sass'
+
+.wrap
+	display: flex
+	position: absolute
+	width: 100%
+	height: 100%
+	justify-content: center
+	align-items: center
+	background-color: $db_bg
+	
+
+$au_m: 0.5rem
+
+.auth
+	display: flex
+	height: 50rem
+	&-left
+		width: 34rem
+		height: 100%
+		background-color: gold
+		position: relative
+		&__wrap
+			position: relative
+			width: 100%
+			height: calc(100% + 2 * #{$au_m})
+			top: -$au_m
+			display: flex
+			flex-direction: column
+			justify-content: center
+			align-items: center
+
+			background: linear-gradient(45deg, $gold, $blue, $red)
+			background-size: 600% 600%
+			animation: bganim 20s linear infinite
+
+			border-radius: 5px
+			box-shadow: 0 0.5rem 2rem 0 transparentize($blue, 0.5)
+
+			color: #fff
+			p
+				margin-bottom: 2rem
+			a
+				display: block
+				width: 50%
+				img
+					width: 100%
+
+	&-right
+		height: 100%
+		border: 1px solid $gold
+		border-left: none
+
+@keyframes bganim
+	0%
+		background-position: 50% 0%
+	50%
+		background-position: 50% 100%
+	100%
+		background-position: 50% 0%

@@ -1,0 +1,15 @@
+<div *ngFor="let c of colors">
+
+  <input 
+    (click)=setColor(c[2]) 
+    type="radio" 
+    name="name" 
+    id="{{c[0]}}" 
+  >
+
+  <label 
+    [style.background-color]="c[1]" 
+    for="{{c[0]}}" 
+  ></label>
+
+</div>

@@ -1,0 +1,44 @@
+@import '../../../../style_vars.sass'
+
+.team
+	position: relative
+	padding: 0.5rem
+	padding-left: 1rem
+	&:hover
+		cursor: pointer
+		background-color: $gold
+		transition: all 0.2s
+		& .team-header__delete
+			opacity: 1
+
+	&-header
+		display: flex
+		justify-content: space-between
+		margin-bottom: 0.5rem
+		&__name
+			line-height: $btn_s_h
+		&__delete
+			+button-small($red)
+			width: 4rem
+			opacity: 0
+
+	&-users
+		display: flex
+		flex-wrap: wrap
+		&__add
+			+button($red)
+
+			&-form
+				width: 85%
+				display: flex
+				justify-content: space-between
+				align-items: baseline
+				input
+					width: 70%
+					+input
+				button
+					+button-small($red)
+					width: 25%
+
+.AAA
+	+AAA

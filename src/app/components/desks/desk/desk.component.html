@@ -1,0 +1,55 @@
+<section class="left">
+
+  <div class="desk-header">
+    <button class="desk-header__back" (click)="goBack()">Back</button>
+  </div>
+
+  <!-- [style.background-color]="setColor()" -->
+  <div class="desk-info">
+    <div class="desk-info__left"></div>
+    <div class="desk-info__center">
+      <div class="desk-info__center__info">
+        <p *ngIf="!mode.edit_desk">{{this_desk.line}}</p>
+        <input *ngIf="mode.edit_desk" [(ngModel)]="this_desk.line" type="text" name="desk_line">
+      </div>
+      <div class="desk-info__center__buttons">
+        <button *ngIf="mode.edit_desk" (click)="saveEdit()">Save</button>
+        <button *ngIf="mode.edit_desk" (click)="toggleMode('edit_desk')">×</button>
+        <button *ngIf="!mode.edit_desk" (click)="toggleMode('edit_desk')">Edit</button>
+        <button *ngIf="!mode.edit_desk" (click)="deleteDesk()">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="wait" *ngIf="wait.task">WAITING</div> -->
+
+
+  <div class="desk-task-list">
+
+    <div *ngFor="let t of tasks" (click)="goToTask(t.id)" class="desk-task-list__item">
+      <p>{{t.line}}</p>
+    </div>
+
+
+    <div class="desk-task-list__item">
+      <div class="desk-task-list__edit">
+        <div class="desk-task-list__edit__add" *ngIf="mode.add_task">
+          <!-- <label for="new_desk_line">Line</label> -->
+          <input type="text" name="new_desk_line" [(ngModel)]="temp_task_line" placeholder="Task title">
+
+          <button (click)="createTask()">Create</button>
+          <button *ngIf="mode.add_task" (click)="toggleMode('add_task')">×</button>
+        </div>
+
+        <button *ngIf="!mode.add_task" class="desk-task-list__plus" (click)="toggleMode('add_task')">+ TASK</button>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<section class="right">
+  <div class="right__null-triangle"></div>
+  <router-outlet></router-outlet>
+</section>

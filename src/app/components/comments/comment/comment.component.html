@@ -1,0 +1,37 @@
+<div class="comment" [class.AAA]="this_comment.parentUserId == id_active" *ngIf="render">
+	<div class="comment-edit">
+	</div>
+	<div class="comment-left">
+		<div class="comment-left__avatar" [style.background-image]="'url(' + parent_user.avatar + ')'"></div>
+	</div>
+	<div class="comment-right">
+		<p class="comment-right-name">{{parent_user.name}}</p>
+		<div class="comment-right-text">
+			<div class="comment-right-text-triangle"></div>
+
+			<div class="comment-right-text-text">
+				<p>{{this_comment.text}}</p>
+			</div>
+
+			<div *ngIf="this_comment.parentUserId == id_active && !edit_mode">
+				<a class="a_btn" (click)="deleteComment()">
+					<img src="../../../../assets/img/delete.svg">
+				</a>
+				<a class="a_btn" (click)="toggleAddingMode()">
+					<img src="../../../../assets/img/edit2.svg">
+				</a>
+			</div>
+
+
+		</div>
+	</div>
+
+	<!-- <div class="wait" *ngIf="wait">WAITING</div> -->
+
+</div>
+
+<div class="edit" *ngIf="edit_mode">
+	<textarea name="" id="" cols="30" rows="2" [(ngModel)]="this_comment.text"></textarea>
+	<button (click)="saveEdit()">save</button>
+	<button (click)="toggleAddingMode()">×</button>
+</div>

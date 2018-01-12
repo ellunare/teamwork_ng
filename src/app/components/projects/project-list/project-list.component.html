@@ -1,0 +1,45 @@
+<br>
+<p 
+	*ngIf="!projects.length && teamId" 
+	style="width: 100%; text-align: center"
+>Add project</p>
+
+<project-list-item 
+	class="project__item"
+	*ngFor="let p of projects"
+	[name]="p.name"
+	[description]="p.description"
+	[color]="p.color"
+	(click)="sendIdOfProject(p.id)"
+></project-list-item>
+
+<!-- <div *ngIf="wait">WAITING</div> -->
+<div class="project__buttons">
+	<button 
+		[class.AAA]="add_project_mode"
+		class="project__add"
+		*ngIf="teamId"
+		(click)="toggleAddingMode()"
+	>+</button>
+		
+	<button 
+		*ngIf="add_project_mode" 
+		class="project-form__submit" 
+		(click)="x_createProject()"
+	>Create</button>
+</div>
+
+
+<div class="project-form" *ngIf="add_project_mode">
+	<!-- <label for="project_name">Name</label> -->
+	<input [(ngModel)]="temp_name" name="project_name" type="text" placeholder="Title">
+
+	<!-- <label for="project_description">Description</label> -->
+	<input [(ngModel)]="temp_description" name="project_description" type="text" placeholder="Description">
+
+	<color (colorSelected)="setTempColor(i, $event)"></color>
+	
+</div>
+
+
+

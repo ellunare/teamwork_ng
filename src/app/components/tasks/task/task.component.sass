@@ -1,0 +1,82 @@
+@import '../../../../style_vars.sass'
+
+.host
+	position: absolute
+	top: $head_h
+	right: 0
+	width: $comm_w
+	height: calc(100vh - 5rem)
+
+=btn
+	width: auto
+	height: 3rem
+	padding: 0 1rem
+	line-height: 3rem
+	font-size: 1.4rem
+	margin-top: 1rem
+	margin-left: 1rem
+
+$h: 5rem
+.task
+	&-header
+		height: 5rem
+		button
+			+button($red)
+			+btn
+	&-info
+		height: $h
+		display: flex
+		background-color: #fff
+		&__left
+			width: 0
+			height: 0
+			border-style: solid
+			border-width: $h/2 0 $h/2 $h/3
+			border-color: transparent transparent transparent $grey
+		&__center
+			width: 100%
+			display: flex
+			justify-content: space-between
+			&__info
+				color: $blue
+				margin-left: 1rem
+				line-height: $h
+				input
+					+input
+					color: $blue
+					height: 4rem
+					display: block
+					border-bottom-color: #fff
+			&__buttons
+				button
+					+button($red)
+					+btn
+					margin-left: 0
+					margin-right: 0.5rem
+
+.main
+	height: calc(100% - 6rem)
+	display: flex
+	flex-direction: column
+	// background-color: red
+
+.comments
+	// background-color: gold
+	height: calc(100% - 5rem)
+	overflow: auto
+	&-add
+		display: flex
+		&__text
+			width: calc(100% - 8rem)
+			resize: none
+			border-radius: 3px
+			&:focus
+				outline: 0
+		&__button
+			+button($red)
+			+btn
+
+.no
+	width: 100%
+	text-align: center
+	padding-top: 2rem

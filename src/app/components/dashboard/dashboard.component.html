@@ -1,0 +1,39 @@
+<section class="db">
+
+	<section class="db-menu">
+
+		<div class="db-menu__logo">// DASHBOARD</div>
+
+		<team-list (TeamId)="setProjectsTeamId(i, $event)"></team-list>
+
+		<project-list 
+			[teamId]="projectsTeamId" 
+			(ProjectId)="setProjectToShow(i, $event)" 
+		></project-list>
+
+	</section>
+
+	<section class="db-main">
+
+		<section class="db-main__user" *ngIf="render_active_user">
+			<a class="db-main__user-exit" routerLink="/">
+				<img src="../../assets/img/calendar.svg">
+			</a>
+			<div class="db-main__user-avatar" [style.background-image]="'url(' + activeUser.avatar + ')'"></div>
+			<div class="db-main__user-info">
+				<p>{{activeUser.name}}</p>
+				<p>{{activeUser.email}}</p>
+			</div>
+
+			<a class="db-main__user-exit" href="#" (click)="onLogoutClick($event)">
+				<img src="../../assets/img/exit.svg">
+			</a>
+		</section>
+
+		<!-- Project -->
+		<router-outlet></router-outlet>
+
+	</section>
+
+</section>
+

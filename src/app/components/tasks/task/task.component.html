@@ -1,0 +1,34 @@
+<div class="host">
+
+  <!-- [style.background-color]="setColor()" -->
+  <div class="task-info">
+    <div class="task-info__left"></div>
+    <div class="task-info__center">
+      <div class="task-info__center__info">
+        <p *ngIf="!mode.edit_task">{{this_task.line}}</p>
+        <input *ngIf="mode.edit_task" [(ngModel)]="this_task.line" type="text" name="line">
+      </div>
+      <div class="task-info__center__buttons">
+        <button *ngIf="mode.edit_task" (click)="saveEdit()">Save</button>
+        <button *ngIf="mode.edit_task" (click)="toggleMode('edit_task')">×</button>
+        <button *ngIf="!mode.edit_task" (click)="toggleMode('edit_task')">Edit</button>
+        <button *ngIf="!mode.edit_task" (click)="deleteTask()">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <p class="no" *ngIf="!comments.length">No comments yet</p>
+
+    <div class="comments">
+      <comment *ngFor="let c of comments" [id]="c.id" (deleted)="deleteComment(i, $event)"></comment>
+    </div>
+
+    <div class="comments-add">
+      <textarea class="comments-add__text" cols="30" rows="3" [(ngModel)]="temp_comment_value"></textarea>
+      <button class="comments-add__button" (click)="createComment()">Send</button>
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,17 @@
+<div class="auth">
+  <div class="auth-wrap">
+    <div class="auth-title">
+      Log In
+    </div>
+    <form class="auth-form" (submit)='login($event)'>
+      <input [(ngModel)]="temp_email" type="email" name="au_email" required placeholder="Email">
+      <input [(ngModel)]="temp_password" type="password" name="au_password" required placeholder="Password">
+
+      <button type="submit">Log In</button>
+    </form>
+  </div>
+
+  <div class="auth-type">
+    <a [routerLink]="['/signup']">Sign Up</a>
+  </div>
+</div>

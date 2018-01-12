@@ -1,0 +1,23 @@
+<div class="teams">
+  <p class="teams-title">Teams</p>
+
+  <team 
+    *ngFor="let t of teams" 
+    [id]="t.id" 
+    [name]="t.name" 
+    (click)="sendIdToProjects(t.id)"
+    (team_deleted)="x_deleteTeamLocal($event)"></team>
+
+  <div class="teams-add">
+    <button 
+      class="teams-add__btn"
+      [class.AAA]="add_team_mode"
+      (click)="toggleAddingMode()">+</button>
+  
+    <div class="teams-add__form" *ngIf="add_team_mode">
+      <input [(ngModel)]="temp_team_name" type="text" placeholder="team name">
+      <button (click)="x_createTeam(temp_team_name)">Create</button>
+    </div>
+  </div>
+ 
+</div>

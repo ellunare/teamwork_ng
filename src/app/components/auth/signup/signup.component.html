@@ -1,0 +1,20 @@
+<div class="auth">
+	<div class="auth-wrap">
+		<div class="auth-title">
+			Sign Up
+		</div>
+		<form class="auth-form" (submit)='signUp()'>
+			<input [(ngModel)]="temp_name" type="text" name="name" placeholder="Name">
+			<input [(ngModel)]="temp_email" type="email" name="email" placeholder="Email">
+			<input [(ngModel)]="temp_pass" type="password" name="pass" placeholder="Password">
+			<input [(ngModel)]="temp_pass_rep" type="password" name="pass_rep" placeholder="Repeat password">
+
+			<button type="submit">Sign Up</button>
+			<!-- <input class="auth-form__submit" type="submit" value="Sign Up"> -->
+		</form>
+	</div>
+
+	<div class="auth-type">
+		<a [routerLink]="['/login']">Log In</a>
+	</div>
+</div>

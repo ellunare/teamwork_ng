@@ -1,0 +1,36 @@
+<div class="team">
+
+  <div class="team-header">
+    <span class="team-header__name">{{name}}</span>
+
+    <button 
+      class="team-header__delete"
+      (click)="x_deleteTeam(id, $event)">Delete</button>
+  </div>
+
+  <div class="team-users">
+    <user 
+      *ngFor="let u of teamUsers" 
+      [id]="u.id" 
+      [name]="u.name"
+      [avatar]="u.avatar"
+      (click)="x_deleteFromTeam(u.id, id, $event)">
+    </user>
+
+    <button 
+      class="team-users__add"
+      [class.AAA]="add_user_mode"
+      (click)="toggleAddingMode()"><div>+</div></button>
+  </div>
+  
+  <div class="team-users__add-form">
+    <input 
+      *ngIf="add_user_mode" 
+      [(ngModel)]="temp_email" 
+      type="email" 
+      placeholder="enter email">
+    <button 
+      *ngIf="add_user_mode" 
+      (click)="x_addUserByEmail(temp_email)">Поиск</button>
+  </div>
+</div>

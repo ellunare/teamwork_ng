@@ -1,0 +1,63 @@
+@import '../../../../style_vars.sass'
+
+.sections
+	padding: 1rem
+	
+	&-item-list
+		display: flex
+		flex-wrap: wrap
+		overflow: auto
+		max-height: calc(100vh - 10rem - 6rem)
+		&__item
+			width: 24%
+			height: 10rem
+			margin-right: calc((100% - 24%*4)/3)
+			margin-bottom: 1.5rem
+			cursor: pointer
+			&:nth-child(4n)
+				margin-right: 0
+			@media screen and (max-width: 1000px)
+				width: 30%
+				&:nth-child(1n)
+					margin-right: calc((100% - 30%*3)/2)
+				&:nth-child(3n)
+					margin-right: 0
+				
+	&-new
+		padding: 1rem
+		border: 1px solid $gold
+		border-radius: 0 0 1.5rem 0
+		text-align: center
+		&__plus
+			+button($gold)
+			margin-top: calc(5rem - 3rem)
+			&:hover
+				background-color: $gold
+		input
+			+input
+			width: 100%
+			border-bottom-color: #efefef
+			color: $blue
+			&::placeholder
+				color: $gold
+		&__add
+			+button($green)
+			height: 3rem
+			width: 6rem
+			padding: 0.5rem
+			font-size: 1.2rem
+			line-height: normal
+			margin-right: 1rem
+			&:hover
+				background-color: $green
+		&__close
+			+button($red)
+			width: 3rem
+			height: 3rem
+			font-size: 1.2rem
+			line-height: normal
+
+.btns
+	display: flex
+	justify-content: center
+	margin-top: 0.5rem
