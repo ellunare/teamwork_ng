@@ -4,8 +4,6 @@ import { SharedService } from './shared.service';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
-import { tasksDB } from '../-DB/tasks.db';
-
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
@@ -14,19 +12,10 @@ export class TasksService {
 
   url = 'http://127.0.0.1:3000/api/tasks';
 
-  private tasksDB = tasksDB;
-
-  private tasksGlobalId = this.tasksDB[this.tasksDB.length - 1].id + 1;
-
   constructor(
     private _http: Http,
     private _ss: SharedService
   ) { }
-
-  // увеличение счетчика после создания таска
-  incrementTasksId() {
-    this.tasksGlobalId++;
-  }
 
   // Отдаем таски по ID родительской доски
   x_getTasks(desk_id) {
@@ -35,73 +24,27 @@ export class TasksService {
   }
 
   // Отдаем таск по его ID
-  getTask(id) {
-    let DB = this.tasksDB;
-
-    for (let i = 0; i < DB.length; i++) {
-      if (DB[i].id == id) {
-        return {
-          response: true,
-          message: 'TasS Task ' + id,
-          data: DB[i]
-        };
-      }
-    }
-    return {
-      response: false,
-      message: 'TasS Task ' + id + ' not found',
-      data: []
-    };
+  x_getTask(id) {
+    return this._http.get(this.url + '/task/' + id, this._ss._headers())
+      .map(res => res.json());
   }
 
   // Создаем таск и возвращаем его глобальный ID
-  createTask(data) {
-    let new_task = data;
-    new_task.id = this.tasksGlobalId;
-    this.tasksDB.push(new_task);
-    this.incrementTasksId();
-
-    return {
-      response: true,
-      message: 'TasS Task ' + new_task.id + ' created',
-      data: new_task.id
-    };
+  x_createTask(new_task) {
+    return this._http.post(this.url + '/create', new_task, this._ss._headers())
+      .map(res => res.json());
   }
 
   // Редактируем таск
-  saveEdit(data) {
-    for (let i = 0; i < this.tasksDB.length; i++) {
-      if (this.tasksDB[i].id == data.id) {
-        this.tasksDB[i] = data;
-        return {
-          response: true,
-          message: 'TasS Task ' + data.id + ' edits saved'
-        };
-      }
-    }
-    return {
-      response: false,
-      message: 'TasS Task ' + data.id + ' not edited / not found'
-    };
+  x_saveEdit(data) {
+    return this._http.put(this.url + '/edit', data, this._ss._headers())
+      .map(res => res.json());
   }
 
   // Удаляем таск по его ID
-  deleteTask(id) {
-    let DB = this.tasksDB;
-
-    for (let i = 0; i < DB.length; i++) {
-      if (DB[i].id == id) {
-        this.tasksDB.splice(i, 1);
-        return {
-          response: true,
-          message: 'TasS Task ' + id + ' deleted'
-        };
-      }
-    }
-    return {
-      response: false,
-      message: 'TasS Task ' + id + ' not deleted / not found'
-    };
+  x_deleteTask(id) {
+    return this._http.delete(this.url + '/delete/' + id, this._ss._headers())
+      .map(res => res.json());
   }
 
   // Сохраняем ID родителей родительской доски

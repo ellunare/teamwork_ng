@@ -18,6 +18,7 @@ import { AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
 export class TaskComponent implements OnInit, AfterViewChecked {
 
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+  scroll_blocked = false;
 
   id;
 
@@ -33,8 +34,10 @@ export class TaskComponent implements OnInit, AfterViewChecked {
 
   temp_comment_value = '';
 
+  render = false;
+
   constructor(
-    private tasksService: TasksService,
+    private _tasksService: TasksService,
     private _commentsService: CommentsService,
     private usersService: UsersService,
     private activatedRoute: ActivatedRoute,
@@ -42,11 +45,13 @@ export class TaskComponent implements OnInit, AfterViewChecked {
   ) { }
 
   ngOnInit() {
+    this.scroll_blocked = false;
+    this.render = false;
     this.wait = true;
     this.activatedRoute.params
       .subscribe(params =>
         this.id = parseInt(params.id));
-    this.getTask()
+    this.x_getTask()
     this.x_getComments();
     this.___scrollToBottom();
   }
@@ -56,9 +61,13 @@ export class TaskComponent implements OnInit, AfterViewChecked {
   }
 
   ___scrollToBottom(): void {
-    try {
+    if (!this.scroll_blocked) {
       this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-    } catch (err) { }
+    }
+  }
+
+  ___block_scroll(e) {
+    this.scroll_blocked = e;
   }
 
   // Переключатель формы добавления комментария таску
@@ -72,39 +81,45 @@ export class TaskComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  getTask() {
-    let response = this.tasksService.getTask(this.id);
-
-    // console.log(response.message);
-    if (response.response) {
-      this.this_task = response.data;
-    }
+  x_getTask() {
+    this._tasksService.x_getTask(this.id)
+      .subscribe(res => {
+        // console.log(res.msg);
+        if (res.success) {
+          this.this_task = res.data;
+        }
+        this.render = true;
+      });
   }
 
-  saveEdit() {
+  x_saveEdit() {
     let data = {
       id: this.id,
       line: this.this_task.line,
       parentDeskId: this.this_task.parentDeskId
     }
-    let response = this.tasksService.saveEdit(data);
-
-    // console.log(response.message);
-    if (response.response) {
-      this.toggleMode('edit_task');
-    }
+    this._tasksService.x_saveEdit(data)
+      .subscribe(res => {
+        // console.log(res.msg);
+        if (res.success) {
+          this.toggleMode('edit_task');
+        }
+      });
   }
 
-  deleteTask() {
-    let response = this.tasksService.deleteTask(this.id);
-
-    // console.log(response.message);
-    if (response.response) {
-      setTimeout(() => {
-        // Отдаем в событие сервиса ID для удаления таска и в досках
-        this.tasksService.emitTaskDeleted(this.id);
-        this.parentRoute();
-      }, 500);
+  x_deleteTask() {
+    let flag = confirm('Sure?');
+    if (flag) {
+      // Удаляем таск
+      this._tasksService.x_deleteTask(this.id)
+        .subscribe(res => {
+          console.log(res.msg);
+          if (res.success) {
+            // Отдаем в событие сервиса ID для удаления таска и в досках
+            this._tasksService.emitTaskDeleted(this.id);
+            this.parentRoute();
+          }
+        });
     }
   }
 
@@ -119,37 +134,32 @@ export class TaskComponent implements OnInit, AfterViewChecked {
       });
   }
 
-  createComment() {
+  x_createComment() {
     if (!this.temp_comment_value) {
       console.log('Write some');
     }
     else {
-      // this.wait = true;
-
       let data = {
         text: this.temp_comment_value,
         parentTaskId: this.id,
         parentUserId: this.usersService.getID()
       }
 
-      let response = this._commentsService.createComment(data);
-
-      // console.log(response.message);
-      if (response.response) {
-        setTimeout(() => {
-          // this.wait = false
-          this.toggleMode('add_comment');
-          // На клиенте - пушим в массив
-          this.comments.push(response.data);
-        }, 1000);
-      }
+      this._commentsService.x_createComment(data)
+        .subscribe(res => {
+          // console.log(res.msg);
+          if (res.success) {
+            this.toggleMode('add_comment');
+            this.comments.push(res.data);
+          }
+        });
     }
   }
 
   // На клиенте - удаляем коммент
-  deleteComment(i, e) {
+  deleteComment(id) {
     for (let i = 0; i < this.comments.length; i++) {
-      if (this.comments[i].id == e.id) {
+      if (this.comments[i].id == id) {
         this.comments.splice(i, 1);
       }
     }
@@ -160,9 +170,9 @@ export class TaskComponent implements OnInit, AfterViewChecked {
     this.router.navigate([
       'dash',
       'project',
-      this.tasksService.parentsID.p,
+      this._tasksService.parentsID.p,
       'section',
-      this.tasksService.parentsID.s,
+      this._tasksService.parentsID.s,
       'desk',
       this.this_task.parentDeskId
     ]);

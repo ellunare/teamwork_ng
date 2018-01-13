@@ -125,13 +125,17 @@ export class DeskComponent implements OnInit {
 
   // Удаляем доску
   x_deleteDesk() {
-    this._desksService.x_deleteDesk(this.id)
-      .subscribe(res => {
-        // console.log(res.msg);
-        if (res.success) {
-          this.goBack();
-        }
-      });
+    let flag = confirm('Sure?');
+    if (flag) {
+      // Удаляем доску
+      this._desksService.x_deleteDesk(this.id)
+        .subscribe(res => {
+          // console.log(res.msg);
+          if (res.success) {
+            this.goBack();
+          }
+        });
+    }
   }
 
   // Возвращаемся назад
@@ -158,31 +162,25 @@ export class DeskComponent implements OnInit {
   }
 
   // Создаем таск и переходим в него
-  createTask() {
-    this.wait.task = true;
-
-    let task = {
+  x_createTask() {
+    let new_task = {
       id: -999,
       line: this.temp_task_line,
       parentDeskId: this.id
     }
-
-    let response = this._tasksService.createTask(task);
-
-    // console.log(response.message);
-    if (response.response) {
-      this.toggleMode('add_task');
-      setTimeout(() => {
-        // Получаем global ID таска и присваиваем его временному таску
-        task.id = response.data;
-        // На клиенте - добавляем таск в маасив доски
-        this.tasks.push(task);
-        this.wait.task = false;
-
-        // Переходим в созданный таск
-        this.goToTask(task.id);
-      }, 1000);
-    }
+    this._tasksService.x_createTask(new_task)
+      .subscribe(res => {
+        // console.log(res.msg);
+        if (res.success) {
+          // Получаем global ID таска и присваиваем его временному таску
+          new_task.id = res.data.id;
+          // На клиенте - добавляем таск в маасив доски
+          this.tasks.push(new_task);
+          // Переходим в созданный таск
+          this.goToTask(new_task.id);
+        }
+        this.toggleMode('add_task');
+      });
   }
 
   // Переходим в дочерний таск
@@ -204,7 +202,7 @@ export class DeskComponent implements OnInit {
     }, 0)
   }
 
-  // Удаляем таск в доске -> массиве тасков
+  // На клиенте Удаляем таск в доске -> массиве тасков
   // От shared сервиса
   deleteTaskFromList(id) {
     for (let i = 0; i < this.tasks.length; i++) {

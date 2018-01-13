@@ -19,6 +19,7 @@ export class CommentComponent implements OnInit {
 
   @Input() id;
   @Output() deleted = new EventEmitter();
+  @Output() block_scroll = new EventEmitter();
 
   this_comment;
 
@@ -38,25 +39,28 @@ export class CommentComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.render = false;
     this.id_active = this._usersService.getID();
-    this.getComment();
-    this.x_getUser();
+    this.x_getComment();
   }
 
   // Получаем комментарий по ID
-  getComment() {
-    let response = this._commentsService.getComment(this.id);
-
-    // console.log(response.message);
-    if (response.response) {
-      this.this_comment = response.data;
-    }
+  x_getComment() {
+    this._commentsService.x_getComment(this.id)
+      .subscribe(res => {
+        // console.log(res.msg);
+        if (res.success) {
+          this.this_comment = res.data;
+          this.x_getUser();
+        }
+      });
   }
 
   // Получаем автора комментария по ID автора
   x_getUser() {
     this._usersService.x_getUserInfo(this.this_comment.parentUserId)
       .subscribe(res => {
+        // console.log(res);
         this.parent_user = res.data;
         this.render = true;
       });
@@ -65,34 +69,31 @@ export class CommentComponent implements OnInit {
   // Переключатель формы редактирования комментария
   toggleAddingMode() {
     this.edit_mode = !this.edit_mode
+    this.block_scroll.emit(this.edit_mode);
   }
 
-  saveEdit() {
-    this.wait = true;
-    this.toggleAddingMode();
-
-    let response = this._commentsService.saveEdit(this.this_comment);
-
-    // console.log(response.message);
-    if (response.response) {
-      setTimeout(() => {
-        this.wait = false;
-      }, 1000);
-    }
+  x_saveEdit() {
+    this._commentsService.x_saveEdit(this.this_comment)
+      .subscribe(res => {
+        // console.log(res.msg);
+        if (res.success) {
+          this.toggleAddingMode();
+        }
+      });
   }
 
-  deleteComment() {
-    this.wait = true;
-
-    let response = this._commentsService.deleteComment(this.this_comment);
-
-    // console.log(response.message);
-    if (response.response) {
-      setTimeout(() => {
-        // Говорим таску удалить этот комментарий у себя
-        this.deleted.emit(this.this_comment);
-        this.wait = false;
-      }, 1000);
+  x_deleteComment() {
+    let flag = confirm('Sure?');
+    if (flag) {
+      // Удаляем коммент
+      this._commentsService.x_deleteComment(this.this_comment.id)
+        .subscribe(res => {
+          // console.log(res.msg);
+          if (res.success) {
+            // Говорим таску удалить этот комментарий у себя
+            this.deleted.emit(this.this_comment.id);
+          }
+        });
     }
   }
 

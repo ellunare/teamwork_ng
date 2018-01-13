@@ -14,7 +14,7 @@ import { DeskComponent } from './components/desks/desk/desk.component';
 
 import { TaskComponent } from './components/tasks/task/task.component';
 
-import { ErrorComponent } from './components/error/error.component';
+import { E404 } from './components/e404/e404.component';
 
 import { AuthGuard } from './guards/authguard.guard';
 
@@ -67,7 +67,7 @@ const APP_ROUTES = [
 	},
 	{
 		path: 'error',
-		component: ErrorComponent
+		component: E404
 	},
 	{
 		path: '**',

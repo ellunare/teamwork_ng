@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
-
 @Component({
-  selector: 'error',
-  templateUrl: './error.component.html',
-  styleUrls: ['./error.component.sass']
+  selector: 'e404',
+  templateUrl: './e404.component.html',
+  styleUrls: ['./e404.component.sass']
 })
-export class ErrorComponent implements OnInit {
 
+export class E404 implements OnInit {
 
   constructor( ) { }
 

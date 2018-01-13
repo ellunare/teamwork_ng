@@ -18,9 +18,9 @@
 	<section class="db-main">
 
 		<section class="db-main__user" *ngIf="render_active_user">
-			<a class="db-main__user-exit" routerLink="/">
+			<!-- <a class="db-main__user-exit" routerLink="/">
 				<img src="../../assets/img/calendar.svg">
-			</a>
+			</a> -->
 			<div class="db-main__user-avatar" [style.background-image]="'url(' + activeUser.avatar + ')'"></div>
 			<div class="db-main__user-info">
 				<p>{{activeUser.name}}</p>

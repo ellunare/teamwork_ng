@@ -14,7 +14,7 @@
 			</div>
 
 			<div *ngIf="this_comment.parentUserId == id_active && !edit_mode">
-				<a class="a_btn" (click)="deleteComment()">
+				<a class="a_btn" (click)="x_deleteComment()">
 					<img src="../../../../assets/img/delete.svg">
 				</a>
 				<a class="a_btn" (click)="toggleAddingMode()">
@@ -26,12 +26,10 @@
 		</div>
 	</div>
 
-	<!-- <div class="wait" *ngIf="wait">WAITING</div> -->
-
 </div>
 
 <div class="edit" *ngIf="edit_mode">
 	<textarea name="" id="" cols="30" rows="2" [(ngModel)]="this_comment.text"></textarea>
-	<button (click)="saveEdit()">save</button>
+	<button (click)="x_saveEdit()">save</button>
 	<button (click)="toggleAddingMode()">×</button>
 </div>

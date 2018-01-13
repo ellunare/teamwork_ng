@@ -23,7 +23,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AuthComponent } from './components/auth/auth.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
-import { ErrorComponent } from './components/error/error.component';
+import { E404 } from './components/e404/e404.component';
 
 import { TeamListComponent } from './components/teams/team-list/team-list.component';
 import { TeamComponent } from './components/teams/team/team.component';
@@ -51,7 +51,7 @@ import { LoadingComponent } from './components/loading/loading.component';
     DashboardComponent,
     LoginComponent,
     SignupComponent,
-    ErrorComponent,
+    E404,
     TeamListComponent,
     TeamComponent,
     UserComponent,
