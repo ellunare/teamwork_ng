@@ -16,10 +16,10 @@
       <input *ngIf="mode.edit_section" type="text" name="desc" [(ngModel)]="section.description">
     </div>
     <div class="section-info__center__buttons">
-      <button *ngIf="mode.edit_section" (click)="saveEdit()">Save</button>
+      <button *ngIf="mode.edit_section" (click)="x_saveEdit()">Save</button>
       <button *ngIf="mode.edit_section" (click)="toggleMode('edit_section')">×</button>
       <button *ngIf="!mode.edit_section" (click)="toggleMode('edit_section')">Edit</button>
-      <button *ngIf="!mode.edit_section" (click)="deleteSection()">Delete</button>
+      <button *ngIf="!mode.edit_section" (click)="x_deleteSection()">Delete</button>
     </div>
   </div>
 </div>
@@ -37,10 +37,12 @@
 
     <div class="desks-list__add">
       <div class="create" *ngIf="mode.add_desk">
-        <!-- <label for="line">Line</label> -->
-        <input type="text" name="line" [(ngModel)]="temp_desk_name" placeholder="Desk title">
-        <button (click)="createDesk()">Create</button>
-        <button (click)="toggleMode('add_desk')">×</button>
+        <!-- <div> -->
+          <!-- <label for="line">Line</label> -->
+          <input type="text" name="line" [(ngModel)]="temp_desk_line" placeholder="Desk title">
+          <button (click)="x_createDesk()">Create</button>
+          <button (click)="toggleMode('add_desk')">×</button>
+        <!-- </div> -->
       </div>
       <button *ngIf="!mode.add_desk" (click)="toggleMode('add_desk')">+ DESK</button>
     </div>

@@ -5,7 +5,7 @@ import {
   EventEmitter
 } from '@angular/core';
 
-import { projectColors } from '../../../-DB/projects.db';
+import { projectColors } from './_colors';
 
 @Component({
   selector: 'color',
@@ -21,7 +21,6 @@ export class ColorComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    // console.log(this.colors);
   }
 
   setColor(color_index) {

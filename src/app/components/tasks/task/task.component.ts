@@ -7,13 +7,17 @@ import { UsersService } from '../../../-services/users.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 
+import { AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
+
 @Component({
   selector: 'task',
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.sass']
 })
 
-export class TaskComponent implements OnInit {
+export class TaskComponent implements OnInit, AfterViewChecked {
+
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
 
   id;
 
@@ -31,7 +35,7 @@ export class TaskComponent implements OnInit {
 
   constructor(
     private tasksService: TasksService,
-    private commentsService: CommentsService,
+    private _commentsService: CommentsService,
     private usersService: UsersService,
     private activatedRoute: ActivatedRoute,
     private router: Router
@@ -43,7 +47,18 @@ export class TaskComponent implements OnInit {
       .subscribe(params =>
         this.id = parseInt(params.id));
     this.getTask()
-    this.getComments();
+    this.x_getComments();
+    this.___scrollToBottom();
+  }
+
+  ngAfterViewChecked() {
+    this.___scrollToBottom();
+  }
+
+  ___scrollToBottom(): void {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch (err) { }
   }
 
   // Переключатель формы добавления комментария таску
@@ -60,7 +75,7 @@ export class TaskComponent implements OnInit {
   getTask() {
     let response = this.tasksService.getTask(this.id);
 
-    console.log(response.message);
+    // console.log(response.message);
     if (response.response) {
       this.this_task = response.data;
     }
@@ -74,7 +89,7 @@ export class TaskComponent implements OnInit {
     }
     let response = this.tasksService.saveEdit(data);
 
-    console.log(response.message);
+    // console.log(response.message);
     if (response.response) {
       this.toggleMode('edit_task');
     }
@@ -83,7 +98,7 @@ export class TaskComponent implements OnInit {
   deleteTask() {
     let response = this.tasksService.deleteTask(this.id);
 
-    console.log(response.message);
+    // console.log(response.message);
     if (response.response) {
       setTimeout(() => {
         // Отдаем в событие сервиса ID для удаления таска и в досках
@@ -93,14 +108,15 @@ export class TaskComponent implements OnInit {
     }
   }
 
-  getComments() {
-    let response = this.commentsService.getComments(this.id);
-
-    console.log(response.message);
-    if (response.response) {
-      this.comments = response.data;
-      this.wait = false;
-    }
+  x_getComments() {
+    this._commentsService.x_getComments(this.id)
+      .subscribe(res => {
+        // console.log(res.msg);
+        if (res.success) {
+          this.comments = res.data;
+        }
+        this.wait = false;
+      });
   }
 
   createComment() {
@@ -108,7 +124,7 @@ export class TaskComponent implements OnInit {
       console.log('Write some');
     }
     else {
-      this.wait = true;
+      // this.wait = true;
 
       let data = {
         text: this.temp_comment_value,
@@ -116,12 +132,12 @@ export class TaskComponent implements OnInit {
         parentUserId: this.usersService.getID()
       }
 
-      let response = this.commentsService.createComment(data);
+      let response = this._commentsService.createComment(data);
 
-      console.log(response.message);
+      // console.log(response.message);
       if (response.response) {
         setTimeout(() => {
-          this.wait = false
+          // this.wait = false
           this.toggleMode('add_comment');
           // На клиенте - пушим в массив
           this.comments.push(response.data);

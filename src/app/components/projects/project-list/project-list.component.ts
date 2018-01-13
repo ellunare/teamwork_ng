@@ -68,7 +68,7 @@ export class ProjectListComponent implements OnInit, OnChanges {
     this._projectsService.x_getProjects(team_id)
       .subscribe(res => {
         this.projects = [];
-        console.log(res.msg);
+        // console.log(res.msg);
         if (res.success) {
           this.projects = res.data;
         }
@@ -100,17 +100,15 @@ export class ProjectListComponent implements OnInit, OnChanges {
       // Создаем новый проект
       this._projectsService.x_createProject(new_project)
         .subscribe(res => {
-          console.log(res.msg);
+          // console.log(res.msg);
           if (res.success) {
-            console.log(res.data);
 
             let return_project = res.data;
             // После, инициализируем его 3мя секциями
             this._sectionsService.x_initialiseProject(res.data.id)
               .subscribe(res => {
-                console.log(res.msg);
+                // console.log(res.msg);
                 if (res.success) {
-                  console.log(res.data);
 
                   this.toggleAddingMode();
                   // На клиенте - пушим в текущий список
@@ -120,21 +118,8 @@ export class ProjectListComponent implements OnInit, OnChanges {
                   this.sendIdOfProject(return_project.id);
                 }
               })
-
-
-
-            //     // Если все ок то получаем новые проекты и переходим в секцию
-            //     if (responseSections.response) {
-            //       console.log(responseSections.message);
-            //       new_project.id = _id;
-
-
-            //     }
-
-            // this.wait = false;
           }
         });
-
     }
   }
 

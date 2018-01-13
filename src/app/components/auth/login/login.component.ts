@@ -37,6 +37,7 @@ export class LoginComponent implements OnInit {
 
       this._authService.x_authenticateUser(user)
         .subscribe(data => {
+          // console.log(data.msg);
           if (data.success) {
             this._authService.x_storeUserData(data.token, data.user);
             // Пользователь есть в базе и данные верны - изменяем статус на LOGGED IN
@@ -45,7 +46,6 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['dash']);
           }
           else {
-            console.log(data.msg);
             this.router.navigate(['login']);
           }
         });

@@ -33,7 +33,7 @@ export class SectionOneComponent implements OnInit {
     add_desk: false
   }
 
-  temp_desk_name = '';
+  temp_desk_line = '';
   // Сохраняем перед редактированием для проверки на изменение
   current_section_name = '';
   current_section_description = '';
@@ -43,8 +43,8 @@ export class SectionOneComponent implements OnInit {
   render_info = false;
 
   constructor(
-    private sectionsService: SectionsService,
-    private desksService: DesksService,
+    private _sectionsService: SectionsService,
+    private _desksService: DesksService,
     private _projectsService: ProjectsService,
     private activatedRoute: ActivatedRoute,
     private router: Router
@@ -56,16 +56,15 @@ export class SectionOneComponent implements OnInit {
     this.activatedRoute.params.subscribe((values: { id: number }) => {
       this.id = values.id;
     })
-    this.getSectionInfo();
-    this.getDesks();
-    this.getParentColor();
+    this.x_getSectionInfo();
+    this.x_getDesks();
   }
 
   // Переключатель формы добавления доски для секции
   toggleMode(mode) {
     // Добавляем доску
     if (mode == 'add_desk') {
-      this.temp_desk_name = '';
+      this.temp_desk_line = '';
       this.mode.add_desk = !this.mode.add_desk;
     }
     // Редактируем секцию
@@ -77,50 +76,51 @@ export class SectionOneComponent implements OnInit {
   }
 
   // Получаем инфу о текущей секции по ID
-  getSectionInfo() {
-    let response = this.sectionsService.getSection(this.id);
-
-    console.log(response.message);
-    if (response.response) {
-      this.section = response.data;
-    }
+  x_getSectionInfo() {
+    this._sectionsService.x_getSection(this.id)
+      .subscribe(res => {
+        if (res.success) {
+          this.section = res.data;
+          this.x_getParentColor();
+        }
+      });
   }
 
   // Сохраняем после редактирования
-  saveEdit() {
-    let flag = true;
-
+  x_saveEdit() {
     // Валидность
-    if (this.current_section_name == this.section.name) {
-      flag = false;
-    }
-    if (this.current_section_description == this.section.description) {
+    let flag = true;
+    if (this.current_section_name == this.section.name && this.current_section_description == this.section.description) {
       flag = false;
     }
     if (!flag) {
       console.log('Same lines');
     }
     else {
-      let response = this.sectionsService.saveEdit(this.section);
-
-      console.log(response.message);
-      if (response.response) {
-        setTimeout(() => {
-          this.toggleMode('edit_section');
-        }, 500);
-      }
+      this._sectionsService.x_saveEdit(this.section)
+        .subscribe(res => {
+          // console.log(res.msg);
+          if (res.success) {
+            this.toggleMode('edit_section');
+          }
+        });
     }
   }
 
   // Удаляем секцию по ID
-  deleteSection() {
-    let response = this.sectionsService.deleteSection(this.id);
-
-    console.log(response.message);
-    if (response.response) {
-      setTimeout(() => {
-        this.close();
-      }, 500);
+  x_deleteSection() {
+    let flag = confirm('Sure?');
+    if (flag) {
+      // Удаляем секцию
+      this._sectionsService.x_deleteSection(this.id)
+        .subscribe(res => {
+          // console.log(res.msg);
+          if (res.success) {
+            this.close();
+            // Удаляем все дочерние эл-ты?
+            //
+          }
+        });
     }
   }
 
@@ -132,37 +132,38 @@ export class SectionOneComponent implements OnInit {
   }
 
   // Получаем доски
-  getDesks() {
-    let response = this.desksService.getDesks(this.id);
-
-    console.log(response.message);
-    if (response.response) {
-      this.desks = response.data;
-    }
+  x_getDesks() {
+    this._desksService.x_getDesks(this.id)
+      .subscribe(res => {
+        // console.log(res.msg);
+        if (res.success) {
+          this.desks = res.data;
+        }
+      });
   }
 
   // Создаем доску
-  createDesk() {
-    if (!this.temp_desk_name) {
+  x_createDesk() {
+    if (!this.temp_desk_line) {
       console.log('write desk line');
     }
     else {
       // Отправляем данные
       let data = {
         id: -999,
-        line: this.temp_desk_name,
+        line: this.temp_desk_line,
         parentSectionId: this.id
       }
 
-      let response = this.desksService.createDesk(data);
-
-      console.log(response.message);
-      if (response.response) {
-        this.toggleMode('add_desk');
-        data.id = response.id;
-        // На клиенте - добавляем в массив
-        this.desks.push(data);
-      }
+      this._desksService.x_createDesk(data)
+        .subscribe(res => {
+          console.log(res.msg);
+          if (res.success) {
+            this.toggleMode('add_desk');
+            // На клиенте - добавляем в массив
+            this.desks.push(res.data);
+          }
+        });
     }
   }
 
@@ -175,10 +176,10 @@ export class SectionOneComponent implements OnInit {
     ]);
   }
 
-  getParentColor() {
+  x_getParentColor() {
     this._projectsService.x_getProject(this.section.parentProjectId)
       .subscribe(res => {
-        console.log(res.msg);
+        // console.log(res.msg);
         if (res.success) {
           this.parent_color = res.data.color;
         }

@@ -1,15 +1,24 @@
 import { Injectable } from '@angular/core';
 
+import { SharedService } from './shared.service';
+import { Http } from '@angular/http';
+import 'rxjs/add/operator/map';
+
 import { commentsDB } from '../-DB/comments.db';
 
 @Injectable()
 export class CommentsService {
 
+  url = 'http://127.0.0.1:3000/api/comments';
+
   private commentsDB = commentsDB;
 
   private commentsGlobalId = this.commentsDB[this.commentsDB.length - 1].id + 1;
 
-  constructor() { }
+  constructor(
+    private _http: Http,
+    private _ss: SharedService
+  ) { }
 
   // увеличение счетчика после создания комментария
   incrementTasksId() {
@@ -37,29 +46,9 @@ export class CommentsService {
   }
 
   // Отдаем комментарии по ID таска родителя
-  getComments(id) {
-    let DB = this.commentsDB;
-    let __tempDB = [];
-
-    for (let i = 0; i < DB.length; i++) {
-      if (DB[i].parentTaskId == id) {
-        __tempDB.push(DB[i]);
-      }
-    }
-    if (__tempDB.length) {
-      return {
-        response: true,
-        message: 'ComS Task ' + id + ' comments',
-        data: __tempDB
-      };
-    }
-    else {
-      return {
-        response: false,
-        message: 'ComS Task ' + id + ' have no comments',
-        data: []
-      };
-    }
+  x_getComments(id) {
+    return this._http.get(this.url + '/task/' + id, this._ss._headers())
+      .map(res => res.json());
   }
 
   createComment(data) {

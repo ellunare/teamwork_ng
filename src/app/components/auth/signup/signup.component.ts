@@ -48,7 +48,7 @@ export class SignupComponent implements OnInit {
 
         this._authservice.x_signUp(newUser)
           .subscribe(res => {
-            console.log(res.msg);
+            // console.log(res.msg);
             if (res.success) {
               this.resetForm('all');
               this.router.navigate(['login']);

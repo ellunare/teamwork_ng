@@ -53,7 +53,7 @@ export class ProjectComponent implements OnInit {
   x_initialise(id) {
     this._projectsService.x_getProject(id)
       .subscribe(res => {
-        console.log(res.msg);
+        // console.log(res.msg);
         if (res.success) {
           this.thisProject = res.data;
           this.wait = false;
@@ -88,7 +88,7 @@ export class ProjectComponent implements OnInit {
 
     this._projectsService.x_saveEdit(data)
       .subscribe(res => {
-        console.log(res.msg);
+        // console.log(res.msg);
         if (res.success) {
           this.toggleAddingMode();
         }
@@ -111,15 +111,15 @@ export class ProjectComponent implements OnInit {
       // Удаляем проект
       this._projectsService.x_deleteProject(this.id)
         .subscribe(res => {
-          console.log(res.msg);
+          // console.log(res.msg);
           if (res.success) {
 
             // Удаляем дочерние секции
             this._sectionsService.x_deleteProjectSections(this.id)
               .subscribe(res => {
-                console.log(res.msg);
+                // console.log(res.msg);
                 if (res.success) {
-                  console.log('childsectionsdeleted');
+                  // console.log('childsectionsdeleted');
                 }
               });
 
@@ -138,7 +138,7 @@ export class ProjectComponent implements OnInit {
 
     this._projectsService.x_makeFav(projectID, userID, add)
       .subscribe(res => {
-        console.log(res.msg);
+        // console.log(res.msg);
       })
   }
 

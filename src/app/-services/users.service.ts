@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { SharedService } from './shared.service';
-import { Http, Headers } from '@angular/http';
+import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 @Injectable()

@@ -53,7 +53,7 @@ export class TeamListComponent implements OnInit {
     else {
       this._teamsService.x_createTeam(team_name)
         .subscribe(res => {
-          console.log(res.msg);
+          // console.log(res.msg);
           if (res.success) {
             // На клиенте
             this.teams.push(res.data);

@@ -33,7 +33,7 @@ export class CommentComponent implements OnInit {
   render = false;
 
   constructor(
-    private commentsService: CommentsService,
+    private _commentsService: CommentsService,
     private _usersService: UsersService
   ) { }
 
@@ -45,9 +45,9 @@ export class CommentComponent implements OnInit {
 
   // Получаем комментарий по ID
   getComment() {
-    let response = this.commentsService.getComment(this.id);
+    let response = this._commentsService.getComment(this.id);
 
-    console.log(response.message);
+    // console.log(response.message);
     if (response.response) {
       this.this_comment = response.data;
     }
@@ -71,9 +71,9 @@ export class CommentComponent implements OnInit {
     this.wait = true;
     this.toggleAddingMode();
 
-    let response = this.commentsService.saveEdit(this.this_comment);
+    let response = this._commentsService.saveEdit(this.this_comment);
 
-    console.log(response.message);
+    // console.log(response.message);
     if (response.response) {
       setTimeout(() => {
         this.wait = false;
@@ -84,9 +84,9 @@ export class CommentComponent implements OnInit {
   deleteComment() {
     this.wait = true;
 
-    let response = this.commentsService.deleteComment(this.this_comment);
+    let response = this._commentsService.deleteComment(this.this_comment);
 
-    console.log(response.message);
+    // console.log(response.message);
     if (response.response) {
       setTimeout(() => {
         // Говорим таску удалить этот комментарий у себя

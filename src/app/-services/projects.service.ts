@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { SharedService } from './shared.service';
-import { Http, Headers } from '@angular/http';
+import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
-
-import { projectsDB, project } from '../-DB/projects.db';
 
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -13,8 +11,6 @@ import { Subject } from 'rxjs/Subject';
 export class ProjectsService {
 
   url = 'http://127.0.0.1:3000/api/projects';
-
-  private projectsDB = projectsDB;
 
   constructor(
     private _http: Http,
@@ -57,16 +53,6 @@ export class ProjectsService {
     this.projectDeleted.next(id);
   }
 
-  getColor(id) {
-    let DB = this.projectsDB;
-    for (let i = 0; i < DB.length; i++) {
-      if (DB[i].id == id) {
-        let c = DB[i].color.toString();
-        return c;
-      }
-    }
-  }
-
   x_makeFav(P_ID, U_ID, add) {
     let body = {
       p_id: P_ID,
@@ -76,5 +62,15 @@ export class ProjectsService {
     return this._http.put(this.url + '/makefav', body, this._ss._headers())
       .map(res => res.json());
   }
-  
+
+  // getColor(id) {
+  //   // let DB = this.projectsDB;
+  //   // for (let i = 0; i < DB.length; i++) {
+  //   //   if (DB[i].id == id) {
+  //   //     let c = DB[i].color.toString();
+  //   //     return c;
+  //   //   }
+  //   // }
+  // }
+
 }

@@ -21,7 +21,7 @@
   <div class="main">
     <p class="no" *ngIf="!comments.length">No comments yet</p>
 
-    <div class="comments">
+    <div class="comments" #scrollMe style="overflow: scroll; height: xyz;">
       <comment *ngFor="let c of comments" [id]="c.id" (deleted)="deleteComment(i, $event)"></comment>
     </div>
 

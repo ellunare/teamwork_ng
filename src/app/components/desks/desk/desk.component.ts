@@ -39,26 +39,29 @@ export class DeskComponent implements OnInit {
   // Для валидации
   current_line;
 
+  render = false;
+
   constructor(
-    private desksService: DesksService,
-    private tasksService: TasksService,
+    private _desksService: DesksService,
+    private _tasksService: TasksService,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
     // Подписываемся на удаление таска, чтобы удалить его в массиве доски
-    tasksService.taskDeletedEmitted.subscribe(
+    _tasksService.taskDeletedEmitted.subscribe(
       id => {
         this.deleteTaskFromList(id);
       });
   }
 
   ngOnInit() {
+    this.render = false;
     // Извлекаем ID родителей
     this.parentRoute();
     // Оопределяем свой id
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.getDesk();
-    this.getTasks();
+    this.x_getDesk();
+    this.x_getTasks();
   }
 
   // Переключатель режима
@@ -77,13 +80,14 @@ export class DeskComponent implements OnInit {
   }
 
   // Получаем инфу о текущей доске
-  getDesk() {
-    let response = this.desksService.getDesk(this.id);
-
-    console.log(response.message);
-    if (response.response) {
-      this.this_desk = response.data;
-    }
+  x_getDesk() {
+    this._desksService.x_getDesk(this.id)
+      .subscribe(res => {
+        // console.log(res.msg);
+        if (res.success) {
+          this.this_desk = res.data;
+        }
+      });
   }
 
   parentRoute() {
@@ -100,34 +104,34 @@ export class DeskComponent implements OnInit {
       }
     }
     // Отдаем в TaskService для возврата в тасках при удалении
-    this.tasksService.storeParentsIds(this.id_p, this.id_s);
+    this._tasksService.storeParentsIds(this.id_p, this.id_s);
   }
 
   // Сохраняем редактирование в доске
-  saveEdit() {
+  x_saveEdit() {
     if (this.current_line == this.this_desk.line) {
       console.log('Line is not edited');
     }
     else {
-      let response = this.desksService.saveEdit(this.this_desk);
-
-      console.log(response.message);
-      if (response.response) {
-        this.toggleMode('edit_desk');
-      }
+      this._desksService.x_saveEdit(this.this_desk)
+        .subscribe(res => {
+          // console.log(res.msg);
+          if (res.success) {
+            this.toggleMode('edit_desk');
+          }
+        });
     }
   }
 
   // Удаляем доску
-  deleteDesk() {
-    let response = this.desksService.deleteDesk(this.id);
-
-    console.log(response.message);
-    if (response.response) {
-      setTimeout(() => {
-        this.goBack();
-      }, 500);
-    }
+  x_deleteDesk() {
+    this._desksService.x_deleteDesk(this.id)
+      .subscribe(res => {
+        // console.log(res.msg);
+        if (res.success) {
+          this.goBack();
+        }
+      });
   }
 
   // Возвращаемся назад
@@ -140,13 +144,17 @@ export class DeskComponent implements OnInit {
   }
 
   // Получаем все таски по ID доски родителя
-  getTasks() {
-    let response = this.tasksService.getTasks(this.id);
-
-    console.log(response.message);
-    if (response.response) {
-      this.tasks = response.data;
-    }
+  x_getTasks() {
+    this._tasksService.x_getTasks(this.id)
+      .subscribe(res => {
+        // console.log(res.msg);
+        if (res.success) {
+          this.tasks = res.data;
+        }
+        setTimeout(() => {
+          this.render = true;
+        }, 0);
+      });
   }
 
   // Создаем таск и переходим в него
@@ -159,9 +167,9 @@ export class DeskComponent implements OnInit {
       parentDeskId: this.id
     }
 
-    let response = this.tasksService.createTask(task);
+    let response = this._tasksService.createTask(task);
 
-    console.log(response.message);
+    // console.log(response.message);
     if (response.response) {
       this.toggleMode('add_task');
       setTimeout(() => {

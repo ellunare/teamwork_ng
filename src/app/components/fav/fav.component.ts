@@ -31,12 +31,12 @@ export class FavComponent implements OnInit {
     if (this.flag) {
       this.favTrigger.emit(1);
       this.flag = !this.flag;
-      console.log('make fav');
+      // console.log('make fav');
     }
     else {
       this.favTrigger.emit(0);
       this.flag = !this.flag;
-      console.log('remove fav');
+      // console.log('remove fav');
     }
   }
 

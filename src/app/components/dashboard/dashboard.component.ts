@@ -38,7 +38,7 @@ export class DashboardComponent implements OnInit {
   x_getActiveUser() {
     this._usersService.x_getUserInfo(this._usersService.getID())
       .subscribe(res => {
-        console.log(res.msg);
+        // console.log(res.msg);
         if (res.success) {
           this.activeUser = res.data;
           this.render_active_user = true;
@@ -69,7 +69,7 @@ export class DashboardComponent implements OnInit {
   getCurrentProject(id) {
     this._projectsService.x_getProject(id)
       .subscribe(res => {
-        console.log(res.msg);
+        // console.log(res.msg);
         if (res.success) {
           this.currentProject = res.data;
         }

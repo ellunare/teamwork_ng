@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
 
+import { SharedService } from './shared.service';
+import { Http } from '@angular/http';
+import 'rxjs/add/operator/map';
+
 import { tasksDB } from '../-DB/tasks.db';
 
 import { Observable } from 'rxjs/Observable';
@@ -8,11 +12,16 @@ import { Subject } from 'rxjs/Subject';
 @Injectable()
 export class TasksService {
 
+  url = 'http://127.0.0.1:3000/api/tasks';
+
   private tasksDB = tasksDB;
 
   private tasksGlobalId = this.tasksDB[this.tasksDB.length - 1].id + 1;
 
-  constructor() { }
+  constructor(
+    private _http: Http,
+    private _ss: SharedService
+  ) { }
 
   // увеличение счетчика после создания таска
   incrementTasksId() {
@@ -20,29 +29,9 @@ export class TasksService {
   }
 
   // Отдаем таски по ID родительской доски
-  getTasks(id) {
-    let DB = this.tasksDB;
-    let __tempDB = [];
-
-    for (let i = 0; i < DB.length; i++) {
-      if (DB[i].parentDeskId == id) {
-        __tempDB.push(DB[i]);
-      }
-    }
-    if (__tempDB.length) {
-      return {
-        response: true,
-        message: 'TasS Desk ' + id + ' tasks',
-        data: __tempDB
-      };
-    }
-    else {
-      return {
-        response: false,
-        message: 'TasS Desk ' + id + ' have no tasks',
-        data: []
-      };
-    }
+  x_getTasks(desk_id) {
+    return this._http.get(this.url + '/desk/' + desk_id, this._ss._headers())
+      .map(res => res.json());
   }
 
   // Отдаем таск по его ID

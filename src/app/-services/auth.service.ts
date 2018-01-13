@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { Http, Headers } from '@angular/http';
+import { SharedService } from './shared.service';
+import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 import { tokenNotExpired } from 'angular2-jwt';
@@ -16,24 +17,19 @@ export class AuthService {
   user: any;
 
   constructor(
-    private _http: Http
+    private _http: Http,
+    private _ss: SharedService
   ) {
     this.isUserLoggedIn = false;
   }
 
   x_signUp(newUser) {
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
-    return this._http.post(this.url + '/register', newUser, { headers: headers })
+    return this._http.post(this.url + '/register', newUser, this._ss._headers())
       .map(res => res.json());
   }
 
   x_authenticateUser(user) {
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
-    return this._http.post(this.url + '/authenticate', user, { headers: headers })
+    return this._http.post(this.url + '/authenticate', user, this._ss._headers())
       .map(res => res.json());
   }
 

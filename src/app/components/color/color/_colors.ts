@@ -1,0 +1,27 @@
+export const projectColors = [
+	[
+		'red',
+		'#ff0020',
+		0
+	],
+	[
+		'gold',
+		'#ffe100',
+		1
+	],
+	[
+		'green',
+		'#00ff90',
+		2
+	],
+	[
+		'blue',
+		'#0055ff',
+		3
+	],
+	[
+		'purple',
+		'#a100ff',
+		4
+	]
+]

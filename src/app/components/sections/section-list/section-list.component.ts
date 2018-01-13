@@ -41,43 +41,36 @@ export class SectionListComponent implements OnInit {
   x_getSections() {
     this._sectionsService.x_getSections(this.parentProjectId)
       .subscribe(res => {
-        console.log(res.msg);
+        // console.log(res.msg);
         if (res.success) {
-          console.log(res.data);
           this.sections = res.data;
         }
       })
-
-    // console.log(response.message);
-    // if (response.response) {
-    //   this.sections = response.data;
-    // }
   }
 
   // Создаем секцию
-  createSection() {
+  x_createSection() {
     if (!this.temp_name || !this.temp_description) {
       console.log('Write some section data');
     }
     else {
-      this.wait = true;
-
       let data = {
+        id: 0,
         name: this.temp_name,
         description: this.temp_description,
-        parent: this.parentProjectId
+        parentProjectId: this.parentProjectId
       }
 
-      let response = this._sectionsService.createSection(data);
-
-      console.log(response.message);
-      if (response.response) {
-        setTimeout(() => {
-          this.x_getSections();
-          this.wait = false;
-          this.toggleAddingMode();
-        }, 1000);
-      }
+      this._sectionsService.x_createSection(data)
+        .subscribe(res => {
+          // console.log(res.msg);
+          if (res.success) {
+            // console.log(res.data);
+            this.toggleAddingMode();
+            // На кленте добавляем в массив
+            this.sections.push(res.data);
+          }
+        })
     }
   }
 

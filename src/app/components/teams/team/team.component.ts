@@ -57,7 +57,7 @@ export class TeamComponent implements OnInit {
             this.teamUsers.push(res.data);
           }
           else {
-            console.log(res.msg);
+            // console.log(res.msg);
           }
         });
     }
@@ -94,7 +94,7 @@ export class TeamComponent implements OnInit {
     if (flag) {
       this._teamsService.x_deleteTeam(team_id)
         .subscribe(res => {
-          console.log(res.msg);
+          // console.log(res.msg);
           if (res.success) {
             this.team_deleted.emit(team_id);
           }

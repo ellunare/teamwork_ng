@@ -1,120 +1,46 @@
 import { Injectable } from '@angular/core';
 
-import { desksDB } from '../-DB/desks.db';
+import { SharedService } from './shared.service';
+import { Http } from '@angular/http';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class DesksService {
 
-  private desksDB = desksDB;
+  url = 'http://127.0.0.1:3000/api/desks';
 
-  private desksGlobalId = this.desksDB[this.desksDB.length - 1].id + 1;
+  constructor(
+    private _http: Http,
+    private _ss: SharedService
+  ) { }
 
-  constructor() { }
-
-  // увеличение счетчика после создания доска
-  incrementDesksId() {
-    this.desksGlobalId++;
-  }
-
-  // Получаем одну доску по ID
-  getDesk(id) {
-    let DB = this.desksDB;
-
-    for (let i = 0; i < DB.length; i++) {
-      if (DB[i].id == id) {
-        return {
-          response: true,
-          message: 'DesS Desk ' + id,
-          data: DB[i]
-        };
-      }
-    }
-    return {
-      response: false,
-      message: 'DesS Desk ' + id + ' not found',
-      data: null
-    };
+  // Получаем 1 доску по ID
+  x_getDesk(id) {
+    return this._http.get(this.url + '/desk/' + id, this._ss._headers())
+      .map(res => res.json());
   }
 
   // Отдаем доски по ID секции родителя
-  getDesks(id) {
-    let DB = this.desksDB;
-    let __tempDB = [];
-
-    for (let i = 0; i < DB.length; i++) {
-      if (DB[i].parentSectionId == id) {
-        __tempDB.push(DB[i]);
-      }
-    }
-    if (__tempDB.length) {
-      return {
-        response: true,
-        message: 'DesS Section ' + id + ' desks',
-        data: __tempDB
-      };
-    }
-    else {
-      return {
-        response: false,
-        message: 'DesS No desks for section ' + id,
-        data: []
-      };
-    }
+  x_getDesks(section_id) {
+    return this._http.get(this.url + '/section/' + section_id, this._ss._headers())
+      .map(res => res.json());
   }
 
   // Создаем доску для ID секции родителя
-  createDesk(data) {
-    let new_desk = {
-      id: this.desksGlobalId,
-      line: data.line,
-      parentSectionId: data.parentSectionId
-    }
-
-    this.desksDB.push(new_desk);
-    this.incrementDesksId();
-
-    return {
-      response: true,
-      message: 'DesS Desk ' + new_desk.id + ' has been added',
-      id: new_desk.id
-    };
+  x_createDesk(data) {
+    return this._http.post(this.url + '/create', data, this._ss._headers())
+      .map(res => res.json());
   }
 
   // Сохраняем редактирование доски
-  saveEdit(desk) {
-    let DB = this.desksDB;
-
-    for (let i = 0; i < DB.length; i++) {
-      if (DB[i].id == desk.id) {
-        this.desksDB[i] = desk;
-        return {
-          response: true,
-          message: 'DesS Desk ' + desk.id + ' edit saved'
-        };
-      }
-    }
-    return {
-      response: false,
-      message: 'DesS Desk ' + desk.id + ' not edited / not found'
-    };
+  x_saveEdit(desk) {
+    return this._http.put(this.url + '/edit', desk, this._ss._headers())
+      .map(res => res.json());
   }
 
-  deleteDesk(id) {
-    let DB = this.desksDB;
-
-    for (let i = 0; i < DB.length; i++) {
-      if (DB[i].id == id) {
-        this.desksDB.splice(i, 1);
-        return {
-          response: true,
-          message: 'DesS Desk ' + id + ' deleted'
-        };
-      }
-    }
-    return {
-      response: false,
-      message: 'DesS Desk ' + id + ' not deleted / not found'
-    };
+  x_deleteDesk(id) {
+    return this._http.delete(this.url + '/delete/' + id, this._ss._headers())
+      .map(res => res.json());
   }
 
 }
