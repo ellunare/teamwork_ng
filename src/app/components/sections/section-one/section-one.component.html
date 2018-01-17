@@ -37,12 +37,16 @@
 
     <div class="desks-list__add">
       <div class="create" *ngIf="mode.add_desk">
-        <!-- <div> -->
-          <!-- <label for="line">Line</label> -->
-          <input type="text" name="line" [(ngModel)]="temp_desk_line" placeholder="Desk title">
+        <span *ngIf="_alert.length" class="alert">* {{_alert}}</span>
+
+        <!-- <label for="line">Line</label> -->
+        <input type="text" name="line" [(ngModel)]="temp_desk_line" placeholder="Desk title">
+        <br>
+        <div class="btns">
           <button (click)="x_createDesk()">Create</button>
           <button (click)="toggleMode('add_desk')">×</button>
-        <!-- </div> -->
+        </div>
+        
       </div>
       <button *ngIf="!mode.add_desk" (click)="toggleMode('add_desk')">+ DESK</button>
     </div>

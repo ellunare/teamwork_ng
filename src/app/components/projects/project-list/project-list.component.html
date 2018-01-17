@@ -31,6 +31,8 @@
 
 
 <div class="project-form" *ngIf="add_project_mode">
+	<span *ngIf="_alert.length" class="alert">* {{_alert}}</span>
+	
 	<!-- <label for="project_name">Name</label> -->
 	<input [(ngModel)]="temp_name" name="project_name" type="text" placeholder="Title">
 

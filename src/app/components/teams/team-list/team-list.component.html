@@ -14,7 +14,10 @@
       [class.AAA]="add_team_mode"
       (click)="toggleAddingMode()">+</button>
   
+    <span *ngIf="_alert.length" class="alert">* {{_alert}}</span>
+    
     <div class="teams-add__form" *ngIf="add_team_mode">
+        
       <input [(ngModel)]="temp_team_name" type="text" placeholder="team name">
       <button (click)="x_createTeam(temp_team_name)">Create</button>
     </div>

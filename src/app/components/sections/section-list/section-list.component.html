@@ -6,14 +6,16 @@
 		<section-item *ngFor="let s of sections" [section]="s" class="sections-item-list__item"></section-item>
 
 		<div class="sections-new  sections-item-list__item">
-			<div *ngIf="add_mode">
+			<div *ngIf="add_mode" class="add">
+				<span *ngIf="_alert.length" class="alert">* {{_alert}}</span>
 				<!-- <label for="name">Name</label> -->
 				<input type="text" name="name" [(ngModel)]="temp_name" placeholder="Title">
 				<!-- <label for="description">Description</label> -->
 				<input type="text" name="description" [(ngModel)]="temp_description" placeholder="Description">
+				<br>
 				<div class="btns">
-					<button class="sections-new__add" (click)="x_createSection()">ADD</button>
-					<button class="sections-new__close" (click)="toggleAddingMode()" *ngIf="add_mode">×</button>
+					<button class="add__add" (click)="x_createSection()">ADD</button>
+					<button class="add__close" (click)="toggleAddingMode()" *ngIf="add_mode">×</button>
 				</div>
 			</div>
 			<button *ngIf="!add_mode" class="sections-new__plus" (click)="toggleAddingMode()">+</button>

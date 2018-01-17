@@ -23,11 +23,14 @@ export class TeamListComponent implements OnInit {
 
   @Output() TeamId = new EventEmitter();
 
+  _alert = '';
+
   constructor(
     private _teamsService: TeamsService
   ) { }
 
   ngOnInit() {
+    this._alert = '';
     this.x_getTeams();
   }
 
@@ -41,6 +44,7 @@ export class TeamListComponent implements OnInit {
 
   // Переключатель формы добавления пользователья в команду
   toggleAddingMode() {
+    this._alert = '';
     this.temp_team_name = '';
     this.add_team_mode = !this.add_team_mode
   }
@@ -48,17 +52,22 @@ export class TeamListComponent implements OnInit {
   // Добавление команды
   x_createTeam(team_name) {
     if (!team_name) {
-      console.log('Write some team name');
+      // console.log('Write some team name');
+      this._alert = 'enter team name';
     }
     else {
       this._teamsService.x_createTeam(team_name)
         .subscribe(res => {
           // console.log(res.msg);
           if (res.success) {
+            this._alert = '';
             // На клиенте
             this.teams.push(res.data);
             this.temp_team_name = '';
             this.toggleAddingMode();
+          }
+          else {
+            this._alert = res.msg;
           }
         });
     }

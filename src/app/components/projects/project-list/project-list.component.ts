@@ -31,6 +31,8 @@ export class ProjectListComponent implements OnInit, OnChanges {
   temp_description = '';
   temp_color = '#918f62';
 
+  _alert = '';
+
   @Output() ProjectId = new EventEmitter();
 
   constructor(
@@ -48,6 +50,7 @@ export class ProjectListComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
+    this._alert = '';
     if (this.teamId) {
       this.x_getProjects(this.teamId);
     }
@@ -58,6 +61,7 @@ export class ProjectListComponent implements OnInit, OnChanges {
 
   // Переключатель формы добавления проекта команде
   toggleAddingMode() {
+    this._alert = '';
     this.add_project_mode = !this.add_project_mode
     this.temp_name = '';
     this.temp_description = '';
@@ -84,7 +88,8 @@ export class ProjectListComponent implements OnInit, OnChanges {
   x_createProject() {
     // Валидность инпутов
     if (!this.temp_name || !this.temp_description) {
-      console.log('Write project info');
+      // console.log('Write project info');
+      this._alert = 'enter project info';
     }
     else {
       // this.wait = true;
@@ -109,6 +114,7 @@ export class ProjectListComponent implements OnInit, OnChanges {
               .subscribe(res => {
                 // console.log(res.msg);
                 if (res.success) {
+                  this._alert = '';
 
                   this.toggleAddingMode();
                   // На клиенте - пушим в текущий список

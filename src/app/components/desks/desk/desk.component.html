@@ -31,19 +31,20 @@
 
     <div class="desk-task-list__item">
       <div class="desk-task-list__edit">
-        <div class="desk-task-list__edit__add" *ngIf="mode.add_task">
-          <div>
-            <!-- <label for="new_desk_line">Line</label> -->
-            <input type="text" name="new_desk_line" [(ngModel)]="temp_task_line" placeholder="Task title">
-            <button (click)="x_createTask()">Create</button>
-            <button *ngIf="mode.add_task" (click)="toggleMode('add_task')">×</button>
-          </div>
-        </div>
-
         <button *ngIf="!mode.add_task" class="desk-task-list__plus" (click)="toggleMode('add_task')">+ TASK</button>
       </div>
     </div>
 
+  </div>
+
+  <div class="desk-task-list__edit__add" *ngIf="mode.add_task">
+    <span *ngIf="_alert.length" class="alert">* {{_alert}}</span>
+    <!-- <label for="new_desk_line">Line</label> -->
+    <input type="text" name="new_desk_line" [(ngModel)]="temp_task_line" placeholder="Task title">
+    <div>
+      <button (click)="x_createTask()">Create</button>
+      <button *ngIf="mode.add_task" (click)="toggleMode('add_task')">×</button>
+    </div>
   </div>
 
 </section>

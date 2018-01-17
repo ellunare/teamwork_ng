@@ -33,31 +33,50 @@
 			margin-top: calc(5rem - 3rem)
 			&:hover
 				background-color: $gold
-		input
-			+input
-			width: 100%
-			border-bottom-color: #efefef
-			color: $blue
-			&::placeholder
-				color: $gold
-		&__add
-			+button($green)
-			height: 3rem
-			width: 6rem
-			padding: 0.5rem
-			font-size: 1.2rem
-			line-height: normal
-			margin-right: 1rem
-			&:hover
-				background-color: $green
-		&__close
-			+button($red)
-			width: 3rem
-			height: 3rem
-			font-size: 1.2rem
-			line-height: normal
+
 
 .btns
 	display: flex
 	justify-content: center
 	margin-top: 0.5rem
+
+.add
+	position: absolute
+	z-index: 100
+	top: 10rem
+	right: 0
+	width: 100%
+	height: calc(100vh - 10rem)
+	background-color: transparentize($db_bg, 0.25)
+	display: flex
+	flex-direction: column
+	justify-content: center
+	align-items: center
+	cursor: default
+	input
+		+input
+		height: 3rem
+		width: 30rem
+		border-bottom-color: $gold
+		color: $blue_dark
+		&::placeholder
+			color: $gold
+	&__add
+		+button($green)
+		height: 3rem
+		width: 6rem
+		padding: 0.5rem
+		font-size: 1.2rem
+		line-height: normal
+		margin-right: 1rem
+		&:hover
+			background-color: $green
+	&__close
+		+button($red)
+		width: 3rem
+		height: 3rem
+		font-size: 1.2rem
+		line-height: normal
+
+.alert
+	color: $red

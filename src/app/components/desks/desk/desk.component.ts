@@ -41,6 +41,8 @@ export class DeskComponent implements OnInit {
 
   render = false;
 
+  _alert = '';
+
   constructor(
     private _desksService: DesksService,
     private _tasksService: TasksService,
@@ -55,6 +57,7 @@ export class DeskComponent implements OnInit {
   }
 
   ngOnInit() {
+    this._alert = '';
     this.render = false;
     // Извлекаем ID родителей
     this.parentRoute();
@@ -66,6 +69,7 @@ export class DeskComponent implements OnInit {
 
   // Переключатель режима
   toggleMode(mode) {
+    this._alert = '';
     // Создаем таск
     if (mode == 'add_task') {
       this.temp_task_line = '';
@@ -115,7 +119,7 @@ export class DeskComponent implements OnInit {
   // Сохраняем редактирование в доске
   x_saveEdit() {
     if (this.current_line == this.this_desk.line) {
-      console.log('Line is not edited');
+      // console.log('Line is not edited');
     }
     else {
       this._desksService.x_saveEdit(this.this_desk)
@@ -168,24 +172,29 @@ export class DeskComponent implements OnInit {
 
   // Создаем таск и переходим в него
   x_createTask() {
-    let new_task = {
-      id: -999,
-      line: this.temp_task_line,
-      parentDeskId: this.id
+    if (!this.temp_task_line.length) {
+      this._alert = 'enter task name';
     }
-    this._tasksService.x_createTask(new_task)
-      .subscribe(res => {
-        // console.log(res.msg);
-        if (res.success) {
-          // Получаем global ID таска и присваиваем его временному таску
-          new_task.id = res.data.id;
-          // На клиенте - добавляем таск в маасив доски
-          this.tasks.push(new_task);
-          // Переходим в созданный таск
-          this.goToTask(new_task.id);
-        }
-        this.toggleMode('add_task');
-      });
+    else {
+      let new_task = {
+        id: -999,
+        line: this.temp_task_line,
+        parentDeskId: this.id
+      }
+      this._tasksService.x_createTask(new_task)
+        .subscribe(res => {
+          // console.log(res.msg);
+          if (res.success) {
+            // Получаем global ID таска и присваиваем его временному таску
+            new_task.id = res.data.id;
+            // На клиенте - добавляем таск в маасив доски
+            this.tasks.push(new_task);
+            // Переходим в созданный таск
+            this.goToTask(new_task.id);
+          }
+          this.toggleMode('add_task');
+        });
+    }
   }
 
   // Переходим в дочерний таск

@@ -23,6 +23,8 @@
       (click)="toggleAddingMode()"><div>+</div></button>
   </div>
   
+  <span *ngIf="_alert.length" class="alert">* {{_alert}}</span>
+
   <div class="team-users__add-form">
     <input 
       *ngIf="add_user_mode" 

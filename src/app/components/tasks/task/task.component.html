@@ -27,7 +27,7 @@
 
     <div class="comments-add">
       <textarea class="comments-add__text" cols="30" rows="3" [(ngModel)]="temp_comment_value"></textarea>
-      <button class="comments-add__button" (click)="x_createComment()">Send</button>
+      <button class="comments-add__button" (click)="x_createComment()" [class.--no]="!temp_comment_value.length">Send</button>
     </div>
 
   </div>

@@ -42,6 +42,8 @@ export class SectionOneComponent implements OnInit {
 
   render_info = false;
 
+  _alert = '';
+
   constructor(
     private _sectionsService: SectionsService,
     private _desksService: DesksService,
@@ -51,6 +53,7 @@ export class SectionOneComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this._alert = '';
     this.render_info = false;
     // Получаем ID из маршрута
     this.activatedRoute.params.subscribe((values: { id: number }) => {
@@ -62,6 +65,7 @@ export class SectionOneComponent implements OnInit {
 
   // Переключатель формы добавления доски для секции
   toggleMode(mode) {
+    this._alert = '';
     // Добавляем доску
     if (mode == 'add_desk') {
       this.temp_desk_line = '';
@@ -150,7 +154,8 @@ export class SectionOneComponent implements OnInit {
   // Создаем доску
   x_createDesk() {
     if (!this.temp_desk_line) {
-      console.log('write desk line');
+      // console.log('write desk line');
+      this._alert = 'enter desk name';
     }
     else {
       // Отправляем данные
@@ -162,7 +167,7 @@ export class SectionOneComponent implements OnInit {
 
       this._desksService.x_createDesk(data)
         .subscribe(res => {
-          console.log(res.msg);
+          // console.log(res.msg);
           if (res.success) {
             this.toggleMode('add_desk');
             // На клиенте - добавляем в массив

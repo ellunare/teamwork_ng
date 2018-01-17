@@ -22,16 +22,20 @@ export class SectionListComponent implements OnInit {
   temp_name = '';
   temp_description = '';
 
+  _alert = '';
+
   constructor(
     private _sectionsService: SectionsService
   ) { }
 
   ngOnInit() {
+    this._alert = '';
     this.x_getSections();
   }
 
   // Переключатель формы добавления проекта команде
   toggleAddingMode() {
+    this._alert = '';
     this.temp_name = '';
     this.temp_description = '';
     this.add_mode = !this.add_mode
@@ -51,7 +55,8 @@ export class SectionListComponent implements OnInit {
   // Создаем секцию
   x_createSection() {
     if (!this.temp_name || !this.temp_description) {
-      console.log('Write some section data');
+      this._alert = 'enter section info';
+      // console.log('Write some section data');
     }
     else {
       let data = {

@@ -26,12 +26,15 @@ export class TeamComponent implements OnInit {
   add_user_mode = false;
   temp_email = '';
 
+  _alert = '';
+
   constructor(
     private _usersService: UsersService,
     private _teamsService: TeamsService
   ) { }
 
   ngOnInit() {
+    this._alert = '';
     this.x_getTeamUsers(this.id);
   }
 
@@ -46,18 +49,20 @@ export class TeamComponent implements OnInit {
   // Добавляем пользователя по email
   x_addUserByEmail(email) {
     if (!email) {
-      console.log('Write some email');
+      // console.log('Write some email');
+      this._alert = 'enter e-mail';
     }
     else {
       this._usersService.x_addUserToTeam(email, this.id)
         .subscribe(res => {
           if (res.success) {
+            this._alert ='';
             this.temp_email = '';
             this.toggleAddingMode();
             this.teamUsers.push(res.data);
           }
           else {
-            // console.log(res.msg);
+            this._alert = res.msg;
           }
         });
     }
@@ -105,6 +110,7 @@ export class TeamComponent implements OnInit {
 
   // Переключатель формы добавления пользователья в команду
   toggleAddingMode() {
+    this._alert ='';
     this.temp_email = '';
     this.add_user_mode = !this.add_user_mode
   }
