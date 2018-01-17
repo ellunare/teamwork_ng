@@ -8,6 +8,8 @@
       <input [(ngModel)]="temp_password" type="password" name="au_password" required placeholder="Password">
 
       <button type="submit">Log In</button>
+      <br>
+      <span *ngIf="_alert.length" class="alert">* {{_alert}}</span>
     </form>
   </div>
 

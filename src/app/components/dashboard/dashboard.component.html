@@ -6,11 +6,11 @@
 
 		<div class="db-menu__logo">// DASHBOARD</div>
 
-		<team-list (TeamId)="setProjectsTeamId(i, $event)"></team-list>
+		<team-list (TeamId)="setProjectsTeamId($event)"></team-list>
 
 		<project-list 
 			[teamId]="projectsTeamId" 
-			(ProjectId)="setProjectToShow(i, $event)" 
+			(ProjectId)="setProjectToShow($event)" 
 		></project-list>
 
 	</section>

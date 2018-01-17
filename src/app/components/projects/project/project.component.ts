@@ -59,6 +59,11 @@ export class ProjectComponent implements OnInit {
           this.wait = false;
           this.x_isFav();
         }
+        else {
+          this.router.navigate([
+            'error'
+          ]);
+        }
       });
   }
 

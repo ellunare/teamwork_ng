@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+import { _url } from './_shared';
 import { SharedService } from './shared.service';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
@@ -7,10 +8,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class UsersService {
 
-  url = 'http://127.0.0.1:3000/api/users';
-
-  // ID активного пользователя
-  private ID;
+  url = _url + '/api/users';
 
   constructor(
     private _http: Http,
@@ -18,11 +16,7 @@ export class UsersService {
   ) { }
 
   getID() {
-    // Если перезагружаем страницу то ID берем в storage
-    if (!this.ID) {
-      this.ID = JSON.parse(localStorage.getItem('user')).id;
-    }
-    return this.ID;
+    return JSON.parse(localStorage.getItem('user')).id;
   }
 
   x_getUserInfo(id) {

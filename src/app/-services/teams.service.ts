@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+import { _url } from './_shared';
 import { SharedService } from './shared.service';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
@@ -7,8 +8,8 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class TeamsService {
 
-  url = 'http://127.0.0.1:3000/api/teams';
-
+  url = _url + '/api/teams';
+  
   constructor(
     private _http: Http,
     private _ss: SharedService

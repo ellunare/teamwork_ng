@@ -22,7 +22,7 @@ export class ProjectListComponent implements OnInit, OnChanges {
 
   @Input() teamId;
 
-  private projects = [];
+  projects = [];
 
   wait = false;
   add_project_mode = false;

@@ -16,7 +16,7 @@ import { TeamsService } from '../../../-services/teams.service';
 })
 export class TeamListComponent implements OnInit {
 
-  private teams = [];
+  teams = [];
 
   add_team_mode = false;
   temp_team_name = '';

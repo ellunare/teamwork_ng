@@ -17,6 +17,9 @@ export class SignupComponent implements OnInit {
   temp_pass = '';
   temp_pass_rep = '';
 
+  _alert = '';
+  success = false;
+
   // Default avatar
   avatar_def = '../../assets/img/avatar_def.jpg';
 
@@ -26,38 +29,47 @@ export class SignupComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.success = false;
   }
 
   signUp() {
     if (!this.temp_name || !this.temp_email || !this.temp_pass || !this.temp_pass_rep) {
-      console.log('Fill inpits');
+      this._alert = 'Fill  all inpits';
     }
     else {
-
-      if (this.temp_pass != this.temp_pass_rep) {
-        console.log('Passwords are not same');
+      let re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+      if (!re.test(this.temp_email)) {
+        this._alert = 'Incorrect e-mail format';
       }
       else {
-
-        let newUser = {
-          name: this.temp_name,
-          email: this.temp_email,
-          password: this.temp_pass,
-          avatar: this.avatar_def
+        if (this.temp_pass != this.temp_pass_rep) {
+          this._alert = 'Passwords are not same';
         }
+        else {
 
-        this._authservice.x_signUp(newUser)
-          .subscribe(res => {
-            // console.log(res.msg);
-            if (res.success) {
-              this.resetForm('all');
-              this.router.navigate(['login']);
-            }
-            else {
-              this.resetForm('');
-            }
-          })
+          let newUser = {
+            name: this.temp_name,
+            email: this.temp_email,
+            password: this.temp_pass,
+            avatar: this.avatar_def
+          }
+
+          this._authservice.x_signUp(newUser)
+            .subscribe(res => {
+              // console.log(res.msg);
+              if (res.success) {
+                this.success = true;
+                // this.resetForm('all');
+                // this.router.navigate(['login']);
+              }
+              else {
+                this._alert = res.msg;
+                this.resetForm('');
+              }
+            })
+        }
       }
+
     }
   }
 

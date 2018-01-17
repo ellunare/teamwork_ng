@@ -48,13 +48,13 @@ export class DashboardComponent implements OnInit {
 
   // Ловим team Id из Team-list и сохраняем в dashboard
   // Project - list получает его как Input
-  setProjectsTeamId(i, e) {
+  setProjectsTeamId(e) {
     this.projectsTeamId = e;
   }
 
   // Кликнули на проект в списке и в dashboard вызывем переход
   // Переходим по ссылке
-  setProjectToShow(i, e) {
+  setProjectToShow(e) {
     // Переходим по новой ссылке
     this.router.navigate(['dash']);
     setTimeout(() => {

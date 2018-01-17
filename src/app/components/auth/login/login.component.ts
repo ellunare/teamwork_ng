@@ -14,6 +14,8 @@ export class LoginComponent implements OnInit {
   temp_email = '';
   temp_password = '';
 
+  _alert = '';
+
   constructor(
     private router: Router,
     private _authService: AuthService
@@ -26,7 +28,7 @@ export class LoginComponent implements OnInit {
     e.preventDefault();
 
     if (!this.temp_email || !this.temp_password) {
-      console.log('Заполните поля');
+      this._alert = 'Fill all inputs';
     }
     else {
       // // Есть ли пользователь? Верны ли данные
@@ -37,6 +39,7 @@ export class LoginComponent implements OnInit {
 
       this._authService.x_authenticateUser(user)
         .subscribe(data => {
+          this._alert = data.msg;
           // console.log(data.msg);
           if (data.success) {
             this._authService.x_storeUserData(data.token, data.user);

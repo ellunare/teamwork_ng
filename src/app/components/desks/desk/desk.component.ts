@@ -87,6 +87,11 @@ export class DeskComponent implements OnInit {
         if (res.success) {
           this.this_desk = res.data;
         }
+        else {
+          this.router.navigate([
+            'error'
+          ]);
+        }
       });
   }
 

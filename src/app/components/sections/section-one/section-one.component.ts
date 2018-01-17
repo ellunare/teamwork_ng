@@ -83,6 +83,11 @@ export class SectionOneComponent implements OnInit {
           this.section = res.data;
           this.x_getParentColor();
         }
+        else {
+          this.router.navigate([
+            'error'
+          ]);
+        }
       });
   }
 

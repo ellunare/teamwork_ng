@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+import { _url } from './_shared';
 import { SharedService } from './shared.service';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
@@ -7,7 +8,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class CommentsService {
 
-  url = 'http://127.0.0.1:3000/api/comments';
+  url = _url + '/api/comments';
 
   constructor(
     private _http: Http,

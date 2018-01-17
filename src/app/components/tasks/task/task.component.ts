@@ -88,6 +88,11 @@ export class TaskComponent implements OnInit, AfterViewChecked {
         if (res.success) {
           this.this_task = res.data;
         }
+        else {
+          this.router.navigate([
+            'error'
+          ]);
+        }
         this.render = true;
       });
   }

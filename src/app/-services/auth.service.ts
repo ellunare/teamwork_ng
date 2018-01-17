@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+import { _url } from './_shared';
 import { SharedService } from './shared.service';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
@@ -9,7 +10,7 @@ import { tokenNotExpired } from 'angular2-jwt';
 @Injectable()
 export class AuthService {
 
-  url = 'http://127.0.0.1:3000/api/auth';
+  url = _url + '/api/auth';
 
   private isUserLoggedIn;
 

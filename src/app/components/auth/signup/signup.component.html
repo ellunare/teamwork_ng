@@ -9,7 +9,10 @@
 			<input [(ngModel)]="temp_pass" type="password" name="pass" placeholder="Password">
 			<input [(ngModel)]="temp_pass_rep" type="password" name="pass_rep" placeholder="Repeat password">
 
+
 			<button type="submit">Sign Up</button>
+			<br>
+			<span *ngIf="_alert.length" class="alert">* {{_alert}}</span>
 			<!-- <input class="auth-form__submit" type="submit" value="Sign Up"> -->
 		</form>
 	</div>
@@ -17,4 +20,15 @@
 	<div class="auth-type">
 		<a [routerLink]="['/login']">Log In</a>
 	</div>
+
+
+	<div class="success" *ngIf="success">
+		<p>Congratulations!</p>
+		<p>User {{temp_email}} registered.</p>
+		<br>
+		<p>Now you can login.</p>
+		<a class="success__btn" [routerLink]="['/login']">Log In</a>
+	</div>
+
 </div>
+
